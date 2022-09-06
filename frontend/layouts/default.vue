@@ -1,3 +1,8 @@
+<script setup lang="ts">
+const { auth, logout } = useAuth()
+const showDropdown = ref(false)
+</script>
+
 <template>
   <div class="flex flex-col min-h-screen">
     <nav class="bg-gray-800 text-white p-3">
@@ -7,8 +12,28 @@
             <h1 class="font-bold">Online Shopping</h1>
           </div>
           <div class="space-x-1">
-            <NuxtLink to="/login" class="btn">เข้าสู่ระบบ</NuxtLink>
-            <NuxtLink to="/sign-up" class="btn is-primary">สมัครสมาชิก</NuxtLink>
+            <template v-if="auth">
+              <div class="relative">
+                <div class="inline btn" @click="showDropdown = !showDropdown">{{ auth.email }}</div>
+                <div class="bg-white text-black rounded absolute right-0 mr-3 mt-1 shadow" v-if="showDropdown">
+                  <ul>
+                    <li>
+                      <NuxtLink class="dropdown-list">แก้ไขที่อยู่</NuxtLink>
+                    </li>
+                    <li>
+                      <NuxtLink class="dropdown-list">ประวัติการสั่งซื้อ</NuxtLink>
+                    </li>
+                    <li>
+                      <span @click="logout" class="dropdown-list">ออกจากระบบ</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </template>
+            <template v-else>
+              <NuxtLink to="/login" class="btn">เข้าสู่ระบบ</NuxtLink>
+              <NuxtLink to="/sign-up" class="btn is-primary">สมัครสมาชิก</NuxtLink>
+            </template>
           </div>
         </div>
       </div>
