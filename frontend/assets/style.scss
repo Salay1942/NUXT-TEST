@@ -1,0 +1,11 @@
+.btn {
+  @apply px-3 py-2 rounded transition focus:ring disabled:cursor-not-allowed;
+  @apply disabled:bg-opacity-30 #{!important};
+  &.is-primary {
+    @apply bg-blue-700 text-white hover:bg-blue-800 focus:ring-blue-900;
+  }
+}
+
+.input {
+  @apply border border-gray-300 rounded px-2 py-1.5 focus:ring focus:ring-blue-200 focus:border-blue-200 focus:outline-none;
+}
