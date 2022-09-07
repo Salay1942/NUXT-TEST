@@ -23,6 +23,17 @@ export type User = {
   createdAt: Date
 }
 
+/**
+ * Model Admin
+ * 
+ */
+export type Admin = {
+  id: number
+  username: string
+  password: string
+  createdAt: Date
+}
+
 
 /**
  * ##  Prisma Client ʲˢ
@@ -173,6 +184,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<GlobalReject>;
+
+  /**
+   * `prisma.admin`: Exposes CRUD operations for the **Admin** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Admins
+    * const admins = await prisma.admin.findMany()
+    * ```
+    */
+  get admin(): Prisma.AdminDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -646,7 +667,8 @@ export namespace Prisma {
   }
 
   export const ModelName: {
-    User: 'User'
+    User: 'User',
+    Admin: 'Admin'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1684,11 +1706,894 @@ export namespace Prisma {
 
 
   /**
+   * Model Admin
+   */
+
+
+  export type AggregateAdmin = {
+    _count: AdminCountAggregateOutputType | null
+    _avg: AdminAvgAggregateOutputType | null
+    _sum: AdminSumAggregateOutputType | null
+    _min: AdminMinAggregateOutputType | null
+    _max: AdminMaxAggregateOutputType | null
+  }
+
+  export type AdminAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type AdminSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type AdminMinAggregateOutputType = {
+    id: number | null
+    username: string | null
+    password: string | null
+    createdAt: Date | null
+  }
+
+  export type AdminMaxAggregateOutputType = {
+    id: number | null
+    username: string | null
+    password: string | null
+    createdAt: Date | null
+  }
+
+  export type AdminCountAggregateOutputType = {
+    id: number
+    username: number
+    password: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type AdminAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type AdminSumAggregateInputType = {
+    id?: true
+  }
+
+  export type AdminMinAggregateInputType = {
+    id?: true
+    username?: true
+    password?: true
+    createdAt?: true
+  }
+
+  export type AdminMaxAggregateInputType = {
+    id?: true
+    username?: true
+    password?: true
+    createdAt?: true
+  }
+
+  export type AdminCountAggregateInputType = {
+    id?: true
+    username?: true
+    password?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type AdminAggregateArgs = {
+    /**
+     * Filter which Admin to aggregate.
+     * 
+    **/
+    where?: AdminWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Admins to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<AdminOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: AdminWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Admins from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Admins.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Admins
+    **/
+    _count?: true | AdminCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AdminAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AdminSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AdminMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AdminMaxAggregateInputType
+  }
+
+  export type GetAdminAggregateType<T extends AdminAggregateArgs> = {
+        [P in keyof T & keyof AggregateAdmin]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAdmin[P]>
+      : GetScalarType<T[P], AggregateAdmin[P]>
+  }
+
+
+
+
+  export type AdminGroupByArgs = {
+    where?: AdminWhereInput
+    orderBy?: Enumerable<AdminOrderByWithAggregationInput>
+    by: Array<AdminScalarFieldEnum>
+    having?: AdminScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AdminCountAggregateInputType | true
+    _avg?: AdminAvgAggregateInputType
+    _sum?: AdminSumAggregateInputType
+    _min?: AdminMinAggregateInputType
+    _max?: AdminMaxAggregateInputType
+  }
+
+
+  export type AdminGroupByOutputType = {
+    id: number
+    username: string
+    password: string
+    createdAt: Date
+    _count: AdminCountAggregateOutputType | null
+    _avg: AdminAvgAggregateOutputType | null
+    _sum: AdminSumAggregateOutputType | null
+    _min: AdminMinAggregateOutputType | null
+    _max: AdminMaxAggregateOutputType | null
+  }
+
+  type GetAdminGroupByPayload<T extends AdminGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<AdminGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AdminGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AdminGroupByOutputType[P]>
+            : GetScalarType<T[P], AdminGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AdminSelect = {
+    id?: boolean
+    username?: boolean
+    password?: boolean
+    createdAt?: boolean
+  }
+
+  export type AdminGetPayload<
+    S extends boolean | null | undefined | AdminArgs,
+    U = keyof S
+      > = S extends true
+        ? Admin
+    : S extends undefined
+    ? never
+    : S extends AdminArgs | AdminFindManyArgs
+    ?'include' extends U
+    ? Admin 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+    P extends keyof Admin ? Admin[P] : never
+  } 
+    : Admin
+  : Admin
+
+
+  type AdminCountArgs = Merge<
+    Omit<AdminFindManyArgs, 'select' | 'include'> & {
+      select?: AdminCountAggregateInputType | true
+    }
+  >
+
+  export interface AdminDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Admin that matches the filter.
+     * @param {AdminFindUniqueArgs} args - Arguments to find a Admin
+     * @example
+     * // Get one Admin
+     * const admin = await prisma.admin.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends AdminFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, AdminFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Admin'> extends True ? CheckSelect<T, Prisma__AdminClient<Admin>, Prisma__AdminClient<AdminGetPayload<T>>> : CheckSelect<T, Prisma__AdminClient<Admin | null >, Prisma__AdminClient<AdminGetPayload<T> | null >>
+
+    /**
+     * Find the first Admin that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminFindFirstArgs} args - Arguments to find a Admin
+     * @example
+     * // Get one Admin
+     * const admin = await prisma.admin.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends AdminFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, AdminFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Admin'> extends True ? CheckSelect<T, Prisma__AdminClient<Admin>, Prisma__AdminClient<AdminGetPayload<T>>> : CheckSelect<T, Prisma__AdminClient<Admin | null >, Prisma__AdminClient<AdminGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Admins that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Admins
+     * const admins = await prisma.admin.findMany()
+     * 
+     * // Get first 10 Admins
+     * const admins = await prisma.admin.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const adminWithIdOnly = await prisma.admin.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends AdminFindManyArgs>(
+      args?: SelectSubset<T, AdminFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<Admin>>, PrismaPromise<Array<AdminGetPayload<T>>>>
+
+    /**
+     * Create a Admin.
+     * @param {AdminCreateArgs} args - Arguments to create a Admin.
+     * @example
+     * // Create one Admin
+     * const Admin = await prisma.admin.create({
+     *   data: {
+     *     // ... data to create a Admin
+     *   }
+     * })
+     * 
+    **/
+    create<T extends AdminCreateArgs>(
+      args: SelectSubset<T, AdminCreateArgs>
+    ): CheckSelect<T, Prisma__AdminClient<Admin>, Prisma__AdminClient<AdminGetPayload<T>>>
+
+    /**
+     * Delete a Admin.
+     * @param {AdminDeleteArgs} args - Arguments to delete one Admin.
+     * @example
+     * // Delete one Admin
+     * const Admin = await prisma.admin.delete({
+     *   where: {
+     *     // ... filter to delete one Admin
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends AdminDeleteArgs>(
+      args: SelectSubset<T, AdminDeleteArgs>
+    ): CheckSelect<T, Prisma__AdminClient<Admin>, Prisma__AdminClient<AdminGetPayload<T>>>
+
+    /**
+     * Update one Admin.
+     * @param {AdminUpdateArgs} args - Arguments to update one Admin.
+     * @example
+     * // Update one Admin
+     * const admin = await prisma.admin.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends AdminUpdateArgs>(
+      args: SelectSubset<T, AdminUpdateArgs>
+    ): CheckSelect<T, Prisma__AdminClient<Admin>, Prisma__AdminClient<AdminGetPayload<T>>>
+
+    /**
+     * Delete zero or more Admins.
+     * @param {AdminDeleteManyArgs} args - Arguments to filter Admins to delete.
+     * @example
+     * // Delete a few Admins
+     * const { count } = await prisma.admin.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends AdminDeleteManyArgs>(
+      args?: SelectSubset<T, AdminDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Admins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Admins
+     * const admin = await prisma.admin.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends AdminUpdateManyArgs>(
+      args: SelectSubset<T, AdminUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Admin.
+     * @param {AdminUpsertArgs} args - Arguments to update or create a Admin.
+     * @example
+     * // Update or create a Admin
+     * const admin = await prisma.admin.upsert({
+     *   create: {
+     *     // ... data to create a Admin
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Admin we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends AdminUpsertArgs>(
+      args: SelectSubset<T, AdminUpsertArgs>
+    ): CheckSelect<T, Prisma__AdminClient<Admin>, Prisma__AdminClient<AdminGetPayload<T>>>
+
+    /**
+     * Find one Admin that matches the filter or throw
+     * `NotFoundError` if no matches were found.
+     * @param {AdminFindUniqueOrThrowArgs} args - Arguments to find a Admin
+     * @example
+     * // Get one Admin
+     * const admin = await prisma.admin.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends AdminFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, AdminFindUniqueOrThrowArgs>
+    ): CheckSelect<T, Prisma__AdminClient<Admin>, Prisma__AdminClient<AdminGetPayload<T>>>
+
+    /**
+     * Find the first Admin that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminFindFirstOrThrowArgs} args - Arguments to find a Admin
+     * @example
+     * // Get one Admin
+     * const admin = await prisma.admin.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends AdminFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, AdminFindFirstOrThrowArgs>
+    ): CheckSelect<T, Prisma__AdminClient<Admin>, Prisma__AdminClient<AdminGetPayload<T>>>
+
+    /**
+     * Count the number of Admins.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminCountArgs} args - Arguments to filter Admins to count.
+     * @example
+     * // Count the number of Admins
+     * const count = await prisma.admin.count({
+     *   where: {
+     *     // ... the filter for the Admins we want to count
+     *   }
+     * })
+    **/
+    count<T extends AdminCountArgs>(
+      args?: Subset<T, AdminCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AdminCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Admin.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AdminAggregateArgs>(args: Subset<T, AdminAggregateArgs>): PrismaPromise<GetAdminAggregateType<T>>
+
+    /**
+     * Group by Admin.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AdminGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AdminGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AdminGroupByArgs['orderBy'] }
+        : { orderBy?: AdminGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AdminGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAdminGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Admin.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__AdminClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Admin base type for findUnique actions
+   */
+  export type AdminFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Admin
+     * 
+    **/
+    select?: AdminSelect | null
+    /**
+     * Filter, which Admin to fetch.
+     * 
+    **/
+    where: AdminWhereUniqueInput
+  }
+
+  /**
+   * Admin: findUnique
+   */
+  export interface AdminFindUniqueArgs extends AdminFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Admin base type for findFirst actions
+   */
+  export type AdminFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Admin
+     * 
+    **/
+    select?: AdminSelect | null
+    /**
+     * Filter, which Admin to fetch.
+     * 
+    **/
+    where?: AdminWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Admins to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<AdminOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Admins.
+     * 
+    **/
+    cursor?: AdminWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Admins from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Admins.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Admins.
+     * 
+    **/
+    distinct?: Enumerable<AdminScalarFieldEnum>
+  }
+
+  /**
+   * Admin: findFirst
+   */
+  export interface AdminFindFirstArgs extends AdminFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Admin findMany
+   */
+  export type AdminFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Admin
+     * 
+    **/
+    select?: AdminSelect | null
+    /**
+     * Filter, which Admins to fetch.
+     * 
+    **/
+    where?: AdminWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Admins to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<AdminOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Admins.
+     * 
+    **/
+    cursor?: AdminWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Admins from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Admins.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<AdminScalarFieldEnum>
+  }
+
+
+  /**
+   * Admin create
+   */
+  export type AdminCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Admin
+     * 
+    **/
+    select?: AdminSelect | null
+    /**
+     * The data needed to create a Admin.
+     * 
+    **/
+    data: XOR<AdminCreateInput, AdminUncheckedCreateInput>
+  }
+
+
+  /**
+   * Admin update
+   */
+  export type AdminUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Admin
+     * 
+    **/
+    select?: AdminSelect | null
+    /**
+     * The data needed to update a Admin.
+     * 
+    **/
+    data: XOR<AdminUpdateInput, AdminUncheckedUpdateInput>
+    /**
+     * Choose, which Admin to update.
+     * 
+    **/
+    where: AdminWhereUniqueInput
+  }
+
+
+  /**
+   * Admin updateMany
+   */
+  export type AdminUpdateManyArgs = {
+    /**
+     * The data used to update Admins.
+     * 
+    **/
+    data: XOR<AdminUpdateManyMutationInput, AdminUncheckedUpdateManyInput>
+    /**
+     * Filter which Admins to update
+     * 
+    **/
+    where?: AdminWhereInput
+  }
+
+
+  /**
+   * Admin upsert
+   */
+  export type AdminUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Admin
+     * 
+    **/
+    select?: AdminSelect | null
+    /**
+     * The filter to search for the Admin to update in case it exists.
+     * 
+    **/
+    where: AdminWhereUniqueInput
+    /**
+     * In case the Admin found by the `where` argument doesn't exist, create a new Admin with this data.
+     * 
+    **/
+    create: XOR<AdminCreateInput, AdminUncheckedCreateInput>
+    /**
+     * In case the Admin was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<AdminUpdateInput, AdminUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Admin delete
+   */
+  export type AdminDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Admin
+     * 
+    **/
+    select?: AdminSelect | null
+    /**
+     * Filter which Admin to delete.
+     * 
+    **/
+    where: AdminWhereUniqueInput
+  }
+
+
+  /**
+   * Admin deleteMany
+   */
+  export type AdminDeleteManyArgs = {
+    /**
+     * Filter which Admins to delete
+     * 
+    **/
+    where?: AdminWhereInput
+  }
+
+
+  /**
+   * Admin: findUniqueOrThrow
+   */
+  export type AdminFindUniqueOrThrowArgs = AdminFindUniqueArgsBase
+      
+
+  /**
+   * Admin: findFirstOrThrow
+   */
+  export type AdminFindFirstOrThrowArgs = AdminFindFirstArgsBase
+      
+
+  /**
+   * Admin without action
+   */
+  export type AdminArgs = {
+    /**
+     * Select specific fields to fetch from the Admin
+     * 
+    **/
+    select?: AdminSelect | null
+  }
+
+
+
+  /**
    * Enums
    */
 
   // Based on
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
+
+  export const AdminScalarFieldEnum: {
+    id: 'id',
+    username: 'username',
+    password: 'password',
+    createdAt: 'createdAt'
+  };
+
+  export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
+
 
   export const SortOrder: {
     asc: 'asc',
@@ -1764,6 +2669,50 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
+  export type AdminWhereInput = {
+    AND?: Enumerable<AdminWhereInput>
+    OR?: Enumerable<AdminWhereInput>
+    NOT?: Enumerable<AdminWhereInput>
+    id?: IntFilter | number
+    username?: StringFilter | string
+    password?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+  }
+
+  export type AdminOrderByWithRelationInput = {
+    id?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AdminWhereUniqueInput = {
+    id?: number
+    username?: string
+  }
+
+  export type AdminOrderByWithAggregationInput = {
+    id?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    createdAt?: SortOrder
+    _count?: AdminCountOrderByAggregateInput
+    _avg?: AdminAvgOrderByAggregateInput
+    _max?: AdminMaxOrderByAggregateInput
+    _min?: AdminMinOrderByAggregateInput
+    _sum?: AdminSumOrderByAggregateInput
+  }
+
+  export type AdminScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<AdminScalarWhereWithAggregatesInput>
+    OR?: Enumerable<AdminScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<AdminScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    username?: StringWithAggregatesFilter | string
+    password?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
   export type UserCreateInput = {
     email: string
     password: string
@@ -1799,6 +2748,45 @@ export namespace Prisma {
   export type UserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdminCreateInput = {
+    username: string
+    password: string
+    createdAt?: Date | string
+  }
+
+  export type AdminUncheckedCreateInput = {
+    id?: number
+    username: string
+    password: string
+    createdAt?: Date | string
+  }
+
+  export type AdminUpdateInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdminUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdminUpdateManyMutationInput = {
+    username?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AdminUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    username?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -1913,6 +2901,35 @@ export namespace Prisma {
     _count?: NestedIntFilter
     _min?: NestedDateTimeFilter
     _max?: NestedDateTimeFilter
+  }
+
+  export type AdminCountOrderByAggregateInput = {
+    id?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AdminAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type AdminMaxOrderByAggregateInput = {
+    id?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AdminMinOrderByAggregateInput = {
+    id?: SortOrder
+    username?: SortOrder
+    password?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type AdminSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {
