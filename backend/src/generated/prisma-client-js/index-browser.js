@@ -95,6 +95,16 @@ exports.Prisma.AdminScalarFieldEnum = makeEnum({
   createdAt: 'createdAt'
 });
 
+exports.Prisma.ProductScalarFieldEnum = makeEnum({
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  images: 'images',
+  price: 'price',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+});
+
 exports.Prisma.SortOrder = makeEnum({
   asc: 'asc',
   desc: 'desc'
@@ -114,7 +124,8 @@ exports.Prisma.UserScalarFieldEnum = makeEnum({
 
 exports.Prisma.ModelName = makeEnum({
   User: 'User',
-  Admin: 'Admin'
+  Admin: 'Admin',
+  Product: 'Product'
 });
 
 /**

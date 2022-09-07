@@ -5,6 +5,8 @@ import login from './controllers/login'
 import loginAsAdmin from './controllers/loginAsAdmin'
 import logout from './controllers/logout'
 import signUp from './controllers/signUp'
+import upsertProducts from './controllers/upsertProducts'
+import onlyAdmin from './middleware/onlyAdmin'
 
 const router = Router()
 
@@ -15,5 +17,8 @@ router.get('/logout', logout)
 
 router.get('/admin', checkAdmin)
 router.post('/admin/login', loginAsAdmin)
+
+router.use('/admin', onlyAdmin)
+router.post('/admin/products', upsertProducts)
 
 export default router

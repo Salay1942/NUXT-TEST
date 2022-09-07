@@ -4,6 +4,12 @@
   &.is-primary {
     @apply bg-blue-700 text-white hover:bg-blue-800 focus:ring-blue-900;
   }
+  &.is-danger {
+    @apply bg-red-700 text-white hover:bg-red-800 focus:ring-red-900;
+  }
+  &.is-secondary {
+    @apply bg-gray-700 text-white hover:bg-gray-800 focus:ring-gray-900;
+  }
 }
 
 .input {
@@ -15,5 +21,5 @@
 }
 
 .admin-link-list {
-  @apply p-2 py-1 cursor-pointer rounded hover:bg-slate-800
+  @apply p-2 py-1 cursor-pointer rounded hover:bg-slate-800 block;
 }
