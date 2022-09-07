@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^7.5.0",
     "@prisma/client": "^4.3.1",
     "bcrypt": "^5.0.1",
     "commander": "^9.4.0",
