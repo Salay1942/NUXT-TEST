@@ -13,3 +13,7 @@
 .dropdown-list {
   @apply block py-1.5 px-3 cursor-pointer rounded hover:bg-gray-100;
 }
+
+.admin-link-list {
+  @apply p-2 py-1 cursor-pointer rounded hover:bg-slate-800
+}

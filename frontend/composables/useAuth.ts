@@ -1,12 +1,20 @@
-export interface User {
+interface User {
   id: number
   email: string
   createdAt: string
 }
 
+interface Admin {
+  id: number
+  username: string
+  createdAt: string
+}
 
 export default () => {
+  const router = useRouter()
+
   const auth = useState<User | undefined>('auth', () => undefined)
+  const admin = useState<Admin | undefined>('admin', () => undefined)
 
   async function checkAuth() {
     const res = await $fetch<{ auth: User | undefined }>('http://localhost:3000/api/auth', {
@@ -15,15 +23,25 @@ export default () => {
     auth.value = res.auth
   }
 
+  async function checkAdmin() {
+    const res = await $fetch<{ admin: Admin | undefined }>('http://localhost:3000/api/admin', {
+      headers: useRequestHeaders(['cookie'])
+    })
+    admin.value = res.admin
+  }
+
   async function logout() {
     const res = await $fetch<{ message: string }>('/api/logout')
     alert(res.message)
     auth.value = undefined
+    router.push('/')
   }
 
   return {
     auth,
+    admin,
     logout,
-    checkAuth
+    checkAuth,
+    checkAdmin
   }
 }
