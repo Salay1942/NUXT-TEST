@@ -10,7 +10,7 @@ export default <RequestHandler>(async (req, res) => {
   }
   await prisma.product.upsert({
     where: {
-      id: +req.params.id || -1
+      id: req.query.id ? +req.query.id : -1
     },
     create: payload,
     update: payload

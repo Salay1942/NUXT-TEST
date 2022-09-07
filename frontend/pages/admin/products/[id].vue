@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import Product from '~~/interface/Product'
+
 definePageMeta({
   layout: 'admin',
   middleware: ['only-admin']
 })
 
+const route = useRoute()
 const router = useRouter()
 
 interface Input {
@@ -20,6 +23,21 @@ const input = reactive<Input>({
   price: 0
 })
 
+const id = ref(-1)
+const isCreate = route.params.id === 'create'
+if (!isCreate) {
+  const { data } = await useFetch<{ product: Product }>(`http://localhost:3000/api/admin/products/${route.params.id}`, {
+    headers: useRequestHeaders(['cookie']),
+    key: `admin-products-${route.params.id}`
+  })
+  const product = data.value.product
+  id.value = product.id
+  input.title = product.title
+  input.description = product.description
+  input.images = product.images.split(',')
+  input.price = product.price
+}
+
 const loading = ref(false)
 
 async function onUpsertProduct() {
@@ -27,6 +45,9 @@ async function onUpsertProduct() {
   try {
     const res = await $fetch<{ message: string }>('/api/admin/products', {
       method: 'post',
+      params: {
+        id: id.value
+      },
       body: {
         title: input.title,
         description: input.description,
@@ -45,7 +66,7 @@ async function onUpsertProduct() {
 
 <template>
   <div>
-    <h2 class="font-xl font-bold">เพิ่มสินค้า</h2>
+    <h2 class="font-xl font-bold">{{ isCreate ? 'เพิ่มสินค้า' : `แก้ไขสินค้า (ID: ${id})` }}</h2>
     <hr class="my-2">
     <form @submit.prevent="onUpsertProduct" class="space-y-2">
       <label class="block">
