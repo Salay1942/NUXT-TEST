@@ -6,9 +6,23 @@ definePageMeta({
   middleware: ['only-admin']
 })
 
-const { data } = await useFetch<{ products: Product[] }>('http://localhost:3000/api/admin/products', {
-  headers: useRequestHeaders(['cookie'])
-})
+const page = ref(1)
+const products = ref<Product[]>([])
+
+async function fetchProducts() {
+  // useFetch ==> $fetch ==> ohmyfetch
+  // useAsyncData ==> axios ==> axios.create({ baseURL: '?' })
+  const res = await $fetch<{ products: Product[] }>('http://localhost:3000/api/admin/products', {
+    headers: useRequestHeaders(['cookie']),
+    params: {
+      page: page.value
+    }
+  })
+  products.value = res.products
+}
+
+await fetchProducts()
+watch(page, () => fetchProducts())
 </script>
 
 <template>
@@ -27,7 +41,7 @@ const { data } = await useFetch<{ products: Product[] }>('http://localhost:3000/
           </tr>
         </thead>
         <tbody>
-          <tr v-for="product of data?.products">
+          <tr v-for="product of products">
             <td class="p-1 border">{{ product.id }}</td>
             <td class="p-1 border">{{ product.title }}</td>
             <td class="p-1 border">{{ product.price }}</td>
@@ -37,6 +51,10 @@ const { data } = await useFetch<{ products: Product[] }>('http://localhost:3000/
           </tr>
         </tbody>
       </table>
+    </div>
+    <div class="space-x-2 text-right mt-2 mr-1">
+      <span v-if="page > 1" class="text-blue-600 underline cursor-pointer" @click="page--">ก่อนหน้า</span>
+      <span class="text-blue-600 underline cursor-pointer" @click="page++">ถัดไป</span>
     </div>
   </div>
 </template>
