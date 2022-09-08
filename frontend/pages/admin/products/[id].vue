@@ -26,12 +26,22 @@ const input = reactive<Input>({
 
 const id = ref(-1)
 const isCreate = route.params.id === 'create'
+let refreshCache: () => Promise<void> | null = null
 if (!isCreate) {
-  const { data } = await useFetch<{ product: Product }>(`http://localhost:3000/api/admin/products/${route.params.id}`, {
-    headers: useRequestHeaders(['cookie']),
-    key: `admin-products-${route.params.id}`
-  })
+  // == useFetch('/api/users')
+  // == useAsyncData('/api/users', () => $fetch('/api/users'))
+  // != useAsyncData('/api/users', () => axios('/api/users'))
+  const { data, refresh } = await useAsyncData<{ product: Product }>(
+    `admin-products-${route.params.id}`,
+    async () => {
+      const res = await axios.get(`/api/admin/products/${route.params.id}`)
+      return res.data
+    }
+  )
+  refreshCache = refresh
   const product = data.value.product
+  // const res = await axios.get(`/api/admin/products/${route.params.id}`)
+  // const product = res.data.product
   id.value = product.id
   input.title = product.title
   input.description = product.description
@@ -58,6 +68,9 @@ async function onUpsertProduct() {
         }
       }
     )
+    if (refreshCache) {
+      refreshCache()
+    }
     alert(res.data.message)
     router.push('/admin/products')
   } catch (error) {
