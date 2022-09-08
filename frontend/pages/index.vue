@@ -2,6 +2,7 @@
 import Product from '~~/interface/Product'
 
 const axios = useAxios()
+const { addCart } = useCart()
 
 const page = ref(1)
 const productRes = ref<{ products: Product[] }>({ products: [] })
@@ -45,7 +46,11 @@ const products = computed(() => {
           <header class="grow mb-3">{{ product.title }}</header>
           <footer class="flex flex-col md:flex-row gap-1">
             <NuxtLink :to="`/products/${product.id}`" class="grow block text-center btn is-sm is-secondary">ดูรายละเอียด</NuxtLink>
-            <div class="grow text-center btn is-sm is-primary">เพิ่มลงตะกร้า</div>
+            <button
+              type="button"
+              class="grow text-center btn is-sm is-primary"
+              @click="addCart({ id: product.id, title: product.title, price: product.price, amount: 1 })"
+            >เพิ่มลงตะกร้า</button>
           </footer>
         </div>
       </div>
