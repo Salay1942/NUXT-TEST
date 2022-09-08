@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: ['only-auth']
+})
+
 const { carts, removeCart } = useCart()
 </script>
 

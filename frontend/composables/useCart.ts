@@ -32,9 +32,14 @@ export default () => {
     carts.value.splice(index, 1)
   }
 
+  function clearCart() {
+    carts.value = []
+  }
+
   return {
     carts,
     addCart,
-    removeCart
+    removeCart,
+    clearCart
   }
 }

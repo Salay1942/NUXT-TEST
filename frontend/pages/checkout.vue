@@ -1,6 +1,12 @@
 <script setup lang="ts">
-const { carts } = useCart()
+definePageMeta({
+  middleware: ['only-auth']
+})
 
+const { carts, clearCart } = useCart()
+const axios = useAxios()
+
+// TODO: ไม่ได้ส่งไปหา Backend รอ Implement
 const input = reactive({
   receiver: '',
   telephone: '',
@@ -12,11 +18,19 @@ const totalPrice = computed(() => {
     return prev + (cur.amount * cur.price)
   }, 0)
 })
+
+async function onCheckout() {
+  const { data } = await axios.post('/api/checkout', {
+    carts: carts.value
+  })
+  alert(data.message)
+  clearCart()
+}
 </script>
 
 <template>
   <div class="w-96 mx-auto border p-3 rounded">
-    <form class="space-y-2">
+    <form @submit.prevent="onCheckout" class="space-y-2">
       <label class="block">
         <div class="mb-1">ชื่อผู้รับสินค้า:</div>
         <input v-model="input.receiver" class="input w-full" type="text">

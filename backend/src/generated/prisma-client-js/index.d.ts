@@ -48,6 +48,30 @@ export type Product = {
   updatedAt: Date
 }
 
+/**
+ * Model ProductOnCheckout
+ * 
+ */
+export type ProductOnCheckout = {
+  checkoutId: number
+  productId: number
+}
+
+/**
+ * Model Checkout
+ * 
+ */
+export type Checkout = {
+  id: number
+  userId: number
+  price: number
+  status: string
+  transferCapture: string | null
+  transferAt: Date | null
+  createdAt: Date
+  updatedAt: Date
+}
+
 
 /**
  * ##  Prisma Client ʲˢ
@@ -218,6 +242,26 @@ export class PrismaClient<
     * ```
     */
   get product(): Prisma.ProductDelegate<GlobalReject>;
+
+  /**
+   * `prisma.productOnCheckout`: Exposes CRUD operations for the **ProductOnCheckout** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ProductOnCheckouts
+    * const productOnCheckouts = await prisma.productOnCheckout.findMany()
+    * ```
+    */
+  get productOnCheckout(): Prisma.ProductOnCheckoutDelegate<GlobalReject>;
+
+  /**
+   * `prisma.checkout`: Exposes CRUD operations for the **Checkout** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Checkouts
+    * const checkouts = await prisma.checkout.findMany()
+    * ```
+    */
+  get checkout(): Prisma.CheckoutDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -693,7 +737,9 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Admin: 'Admin',
-    Product: 'Product'
+    Product: 'Product',
+    ProductOnCheckout: 'ProductOnCheckout',
+    Checkout: 'Checkout'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -850,6 +896,152 @@ export namespace Prisma {
   /**
    * Count Types
    */
+
+
+  /**
+   * Count Type UserCountOutputType
+   */
+
+
+  export type UserCountOutputType = {
+    checkouts: number
+  }
+
+  export type UserCountOutputTypeSelect = {
+    checkouts?: boolean
+  }
+
+  export type UserCountOutputTypeGetPayload<
+    S extends boolean | null | undefined | UserCountOutputTypeArgs,
+    U = keyof S
+      > = S extends true
+        ? UserCountOutputType
+    : S extends undefined
+    ? never
+    : S extends UserCountOutputTypeArgs
+    ?'include' extends U
+    ? UserCountOutputType 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+    P extends keyof UserCountOutputType ? UserCountOutputType[P] : never
+  } 
+    : UserCountOutputType
+  : UserCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     * 
+    **/
+    select?: UserCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type ProductCountOutputType
+   */
+
+
+  export type ProductCountOutputType = {
+    checkouts: number
+  }
+
+  export type ProductCountOutputTypeSelect = {
+    checkouts?: boolean
+  }
+
+  export type ProductCountOutputTypeGetPayload<
+    S extends boolean | null | undefined | ProductCountOutputTypeArgs,
+    U = keyof S
+      > = S extends true
+        ? ProductCountOutputType
+    : S extends undefined
+    ? never
+    : S extends ProductCountOutputTypeArgs
+    ?'include' extends U
+    ? ProductCountOutputType 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+    P extends keyof ProductCountOutputType ? ProductCountOutputType[P] : never
+  } 
+    : ProductCountOutputType
+  : ProductCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ProductCountOutputType without action
+   */
+  export type ProductCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the ProductCountOutputType
+     * 
+    **/
+    select?: ProductCountOutputTypeSelect | null
+  }
+
+
+
+  /**
+   * Count Type CheckoutCountOutputType
+   */
+
+
+  export type CheckoutCountOutputType = {
+    products: number
+  }
+
+  export type CheckoutCountOutputTypeSelect = {
+    products?: boolean
+  }
+
+  export type CheckoutCountOutputTypeGetPayload<
+    S extends boolean | null | undefined | CheckoutCountOutputTypeArgs,
+    U = keyof S
+      > = S extends true
+        ? CheckoutCountOutputType
+    : S extends undefined
+    ? never
+    : S extends CheckoutCountOutputTypeArgs
+    ?'include' extends U
+    ? CheckoutCountOutputType 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+    P extends keyof CheckoutCountOutputType ? CheckoutCountOutputType[P] : never
+  } 
+    : CheckoutCountOutputType
+  : CheckoutCountOutputType
+
+
+
+
+  // Custom InputTypes
+
+  /**
+   * CheckoutCountOutputType without action
+   */
+  export type CheckoutCountOutputTypeArgs = {
+    /**
+     * Select specific fields to fetch from the CheckoutCountOutputType
+     * 
+    **/
+    select?: CheckoutCountOutputTypeSelect | null
+  }
 
 
 
@@ -1053,7 +1245,14 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     password?: boolean
+    checkouts?: boolean | CheckoutFindManyArgs
     createdAt?: boolean
+    _count?: boolean | UserCountOutputTypeArgs
+  }
+
+  export type UserInclude = {
+    checkouts?: boolean | CheckoutFindManyArgs
+    _count?: boolean | UserCountOutputTypeArgs
   }
 
   export type UserGetPayload<
@@ -1065,11 +1264,16 @@ export namespace Prisma {
     ? never
     : S extends UserArgs | UserFindManyArgs
     ?'include' extends U
-    ? User 
+    ? User  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'checkouts' ? Array < CheckoutGetPayload<Exclude<S['include'], undefined | null>[P]>>  :
+        P extends '_count' ? UserCountOutputTypeGetPayload<Exclude<S['include'], undefined | null>[P]> :  never
+  } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-    P extends keyof User ? User[P] : never
+        P extends 'checkouts' ? Array < CheckoutGetPayload<Exclude<S['select'], undefined | null>[P]>>  :
+        P extends '_count' ? UserCountOutputTypeGetPayload<Exclude<S['select'], undefined | null>[P]> :  P extends keyof User ? User[P] : never
   } 
     : User
   : User
@@ -1428,6 +1632,7 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
+    checkouts<T extends CheckoutFindManyArgs = {}>(args?: Subset<T, CheckoutFindManyArgs>): CheckSelect<T, PrismaPromise<Array<Checkout>>, PrismaPromise<Array<CheckoutGetPayload<T>>>>;
 
     private get _document();
     /**
@@ -1466,6 +1671,11 @@ export namespace Prisma {
     **/
     select?: UserSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UserInclude | null
+    /**
      * Filter, which User to fetch.
      * 
     **/
@@ -1493,6 +1703,11 @@ export namespace Prisma {
      * 
     **/
     select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UserInclude | null
     /**
      * Filter, which User to fetch.
      * 
@@ -1557,6 +1772,11 @@ export namespace Prisma {
     **/
     select?: UserSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UserInclude | null
+    /**
      * Filter, which Users to fetch.
      * 
     **/
@@ -1603,6 +1823,11 @@ export namespace Prisma {
     **/
     select?: UserSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UserInclude | null
+    /**
      * The data needed to create a User.
      * 
     **/
@@ -1619,6 +1844,11 @@ export namespace Prisma {
      * 
     **/
     select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UserInclude | null
     /**
      * The data needed to update a User.
      * 
@@ -1659,6 +1889,11 @@ export namespace Prisma {
     **/
     select?: UserSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UserInclude | null
+    /**
      * The filter to search for the User to update in case it exists.
      * 
     **/
@@ -1685,6 +1920,11 @@ export namespace Prisma {
      * 
     **/
     select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UserInclude | null
     /**
      * Filter which User to delete.
      * 
@@ -1726,6 +1966,11 @@ export namespace Prisma {
      * 
     **/
     select?: UserSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: UserInclude | null
   }
 
 
@@ -2826,8 +3071,15 @@ export namespace Prisma {
     description?: boolean
     images?: boolean
     price?: boolean
+    checkouts?: boolean | ProductOnCheckoutFindManyArgs
     createdAt?: boolean
     updatedAt?: boolean
+    _count?: boolean | ProductCountOutputTypeArgs
+  }
+
+  export type ProductInclude = {
+    checkouts?: boolean | ProductOnCheckoutFindManyArgs
+    _count?: boolean | ProductCountOutputTypeArgs
   }
 
   export type ProductGetPayload<
@@ -2839,11 +3091,16 @@ export namespace Prisma {
     ? never
     : S extends ProductArgs | ProductFindManyArgs
     ?'include' extends U
-    ? Product 
+    ? Product  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'checkouts' ? Array < ProductOnCheckoutGetPayload<Exclude<S['include'], undefined | null>[P]>>  :
+        P extends '_count' ? ProductCountOutputTypeGetPayload<Exclude<S['include'], undefined | null>[P]> :  never
+  } 
     : 'select' extends U
     ? {
     [P in TrueKeys<S['select']>]:
-    P extends keyof Product ? Product[P] : never
+        P extends 'checkouts' ? Array < ProductOnCheckoutGetPayload<Exclude<S['select'], undefined | null>[P]>>  :
+        P extends '_count' ? ProductCountOutputTypeGetPayload<Exclude<S['select'], undefined | null>[P]> :  P extends keyof Product ? Product[P] : never
   } 
     : Product
   : Product
@@ -3202,6 +3459,7 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
     readonly [Symbol.toStringTag]: 'PrismaClientPromise';
 
+    checkouts<T extends ProductOnCheckoutFindManyArgs = {}>(args?: Subset<T, ProductOnCheckoutFindManyArgs>): CheckSelect<T, PrismaPromise<Array<ProductOnCheckout>>, PrismaPromise<Array<ProductOnCheckoutGetPayload<T>>>>;
 
     private get _document();
     /**
@@ -3240,6 +3498,11 @@ export namespace Prisma {
     **/
     select?: ProductSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductInclude | null
+    /**
      * Filter, which Product to fetch.
      * 
     **/
@@ -3267,6 +3530,11 @@ export namespace Prisma {
      * 
     **/
     select?: ProductSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductInclude | null
     /**
      * Filter, which Product to fetch.
      * 
@@ -3331,6 +3599,11 @@ export namespace Prisma {
     **/
     select?: ProductSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductInclude | null
+    /**
      * Filter, which Products to fetch.
      * 
     **/
@@ -3377,6 +3650,11 @@ export namespace Prisma {
     **/
     select?: ProductSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductInclude | null
+    /**
      * The data needed to create a Product.
      * 
     **/
@@ -3393,6 +3671,11 @@ export namespace Prisma {
      * 
     **/
     select?: ProductSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductInclude | null
     /**
      * The data needed to update a Product.
      * 
@@ -3433,6 +3716,11 @@ export namespace Prisma {
     **/
     select?: ProductSelect | null
     /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductInclude | null
+    /**
      * The filter to search for the Product to update in case it exists.
      * 
     **/
@@ -3459,6 +3747,11 @@ export namespace Prisma {
      * 
     **/
     select?: ProductSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductInclude | null
     /**
      * Filter which Product to delete.
      * 
@@ -3500,6 +3793,1899 @@ export namespace Prisma {
      * 
     **/
     select?: ProductSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductInclude | null
+  }
+
+
+
+  /**
+   * Model ProductOnCheckout
+   */
+
+
+  export type AggregateProductOnCheckout = {
+    _count: ProductOnCheckoutCountAggregateOutputType | null
+    _avg: ProductOnCheckoutAvgAggregateOutputType | null
+    _sum: ProductOnCheckoutSumAggregateOutputType | null
+    _min: ProductOnCheckoutMinAggregateOutputType | null
+    _max: ProductOnCheckoutMaxAggregateOutputType | null
+  }
+
+  export type ProductOnCheckoutAvgAggregateOutputType = {
+    checkoutId: number | null
+    productId: number | null
+  }
+
+  export type ProductOnCheckoutSumAggregateOutputType = {
+    checkoutId: number | null
+    productId: number | null
+  }
+
+  export type ProductOnCheckoutMinAggregateOutputType = {
+    checkoutId: number | null
+    productId: number | null
+  }
+
+  export type ProductOnCheckoutMaxAggregateOutputType = {
+    checkoutId: number | null
+    productId: number | null
+  }
+
+  export type ProductOnCheckoutCountAggregateOutputType = {
+    checkoutId: number
+    productId: number
+    _all: number
+  }
+
+
+  export type ProductOnCheckoutAvgAggregateInputType = {
+    checkoutId?: true
+    productId?: true
+  }
+
+  export type ProductOnCheckoutSumAggregateInputType = {
+    checkoutId?: true
+    productId?: true
+  }
+
+  export type ProductOnCheckoutMinAggregateInputType = {
+    checkoutId?: true
+    productId?: true
+  }
+
+  export type ProductOnCheckoutMaxAggregateInputType = {
+    checkoutId?: true
+    productId?: true
+  }
+
+  export type ProductOnCheckoutCountAggregateInputType = {
+    checkoutId?: true
+    productId?: true
+    _all?: true
+  }
+
+  export type ProductOnCheckoutAggregateArgs = {
+    /**
+     * Filter which ProductOnCheckout to aggregate.
+     * 
+    **/
+    where?: ProductOnCheckoutWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProductOnCheckouts to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<ProductOnCheckoutOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: ProductOnCheckoutWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProductOnCheckouts from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProductOnCheckouts.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProductOnCheckouts
+    **/
+    _count?: true | ProductOnCheckoutCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ProductOnCheckoutAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ProductOnCheckoutSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProductOnCheckoutMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProductOnCheckoutMaxAggregateInputType
+  }
+
+  export type GetProductOnCheckoutAggregateType<T extends ProductOnCheckoutAggregateArgs> = {
+        [P in keyof T & keyof AggregateProductOnCheckout]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProductOnCheckout[P]>
+      : GetScalarType<T[P], AggregateProductOnCheckout[P]>
+  }
+
+
+
+
+  export type ProductOnCheckoutGroupByArgs = {
+    where?: ProductOnCheckoutWhereInput
+    orderBy?: Enumerable<ProductOnCheckoutOrderByWithAggregationInput>
+    by: Array<ProductOnCheckoutScalarFieldEnum>
+    having?: ProductOnCheckoutScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProductOnCheckoutCountAggregateInputType | true
+    _avg?: ProductOnCheckoutAvgAggregateInputType
+    _sum?: ProductOnCheckoutSumAggregateInputType
+    _min?: ProductOnCheckoutMinAggregateInputType
+    _max?: ProductOnCheckoutMaxAggregateInputType
+  }
+
+
+  export type ProductOnCheckoutGroupByOutputType = {
+    checkoutId: number
+    productId: number
+    _count: ProductOnCheckoutCountAggregateOutputType | null
+    _avg: ProductOnCheckoutAvgAggregateOutputType | null
+    _sum: ProductOnCheckoutSumAggregateOutputType | null
+    _min: ProductOnCheckoutMinAggregateOutputType | null
+    _max: ProductOnCheckoutMaxAggregateOutputType | null
+  }
+
+  type GetProductOnCheckoutGroupByPayload<T extends ProductOnCheckoutGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<ProductOnCheckoutGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProductOnCheckoutGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProductOnCheckoutGroupByOutputType[P]>
+            : GetScalarType<T[P], ProductOnCheckoutGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProductOnCheckoutSelect = {
+    checkout?: boolean | CheckoutArgs
+    checkoutId?: boolean
+    product?: boolean | ProductArgs
+    productId?: boolean
+  }
+
+  export type ProductOnCheckoutInclude = {
+    checkout?: boolean | CheckoutArgs
+    product?: boolean | ProductArgs
+  }
+
+  export type ProductOnCheckoutGetPayload<
+    S extends boolean | null | undefined | ProductOnCheckoutArgs,
+    U = keyof S
+      > = S extends true
+        ? ProductOnCheckout
+    : S extends undefined
+    ? never
+    : S extends ProductOnCheckoutArgs | ProductOnCheckoutFindManyArgs
+    ?'include' extends U
+    ? ProductOnCheckout  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'checkout' ? CheckoutGetPayload<Exclude<S['include'], undefined | null>[P]> :
+        P extends 'product' ? ProductGetPayload<Exclude<S['include'], undefined | null>[P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'checkout' ? CheckoutGetPayload<Exclude<S['select'], undefined | null>[P]> :
+        P extends 'product' ? ProductGetPayload<Exclude<S['select'], undefined | null>[P]> :  P extends keyof ProductOnCheckout ? ProductOnCheckout[P] : never
+  } 
+    : ProductOnCheckout
+  : ProductOnCheckout
+
+
+  type ProductOnCheckoutCountArgs = Merge<
+    Omit<ProductOnCheckoutFindManyArgs, 'select' | 'include'> & {
+      select?: ProductOnCheckoutCountAggregateInputType | true
+    }
+  >
+
+  export interface ProductOnCheckoutDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one ProductOnCheckout that matches the filter.
+     * @param {ProductOnCheckoutFindUniqueArgs} args - Arguments to find a ProductOnCheckout
+     * @example
+     * // Get one ProductOnCheckout
+     * const productOnCheckout = await prisma.productOnCheckout.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends ProductOnCheckoutFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, ProductOnCheckoutFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'ProductOnCheckout'> extends True ? CheckSelect<T, Prisma__ProductOnCheckoutClient<ProductOnCheckout>, Prisma__ProductOnCheckoutClient<ProductOnCheckoutGetPayload<T>>> : CheckSelect<T, Prisma__ProductOnCheckoutClient<ProductOnCheckout | null >, Prisma__ProductOnCheckoutClient<ProductOnCheckoutGetPayload<T> | null >>
+
+    /**
+     * Find the first ProductOnCheckout that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductOnCheckoutFindFirstArgs} args - Arguments to find a ProductOnCheckout
+     * @example
+     * // Get one ProductOnCheckout
+     * const productOnCheckout = await prisma.productOnCheckout.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends ProductOnCheckoutFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, ProductOnCheckoutFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'ProductOnCheckout'> extends True ? CheckSelect<T, Prisma__ProductOnCheckoutClient<ProductOnCheckout>, Prisma__ProductOnCheckoutClient<ProductOnCheckoutGetPayload<T>>> : CheckSelect<T, Prisma__ProductOnCheckoutClient<ProductOnCheckout | null >, Prisma__ProductOnCheckoutClient<ProductOnCheckoutGetPayload<T> | null >>
+
+    /**
+     * Find zero or more ProductOnCheckouts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductOnCheckoutFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProductOnCheckouts
+     * const productOnCheckouts = await prisma.productOnCheckout.findMany()
+     * 
+     * // Get first 10 ProductOnCheckouts
+     * const productOnCheckouts = await prisma.productOnCheckout.findMany({ take: 10 })
+     * 
+     * // Only select the `checkoutId`
+     * const productOnCheckoutWithCheckoutIdOnly = await prisma.productOnCheckout.findMany({ select: { checkoutId: true } })
+     * 
+    **/
+    findMany<T extends ProductOnCheckoutFindManyArgs>(
+      args?: SelectSubset<T, ProductOnCheckoutFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<ProductOnCheckout>>, PrismaPromise<Array<ProductOnCheckoutGetPayload<T>>>>
+
+    /**
+     * Create a ProductOnCheckout.
+     * @param {ProductOnCheckoutCreateArgs} args - Arguments to create a ProductOnCheckout.
+     * @example
+     * // Create one ProductOnCheckout
+     * const ProductOnCheckout = await prisma.productOnCheckout.create({
+     *   data: {
+     *     // ... data to create a ProductOnCheckout
+     *   }
+     * })
+     * 
+    **/
+    create<T extends ProductOnCheckoutCreateArgs>(
+      args: SelectSubset<T, ProductOnCheckoutCreateArgs>
+    ): CheckSelect<T, Prisma__ProductOnCheckoutClient<ProductOnCheckout>, Prisma__ProductOnCheckoutClient<ProductOnCheckoutGetPayload<T>>>
+
+    /**
+     * Delete a ProductOnCheckout.
+     * @param {ProductOnCheckoutDeleteArgs} args - Arguments to delete one ProductOnCheckout.
+     * @example
+     * // Delete one ProductOnCheckout
+     * const ProductOnCheckout = await prisma.productOnCheckout.delete({
+     *   where: {
+     *     // ... filter to delete one ProductOnCheckout
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends ProductOnCheckoutDeleteArgs>(
+      args: SelectSubset<T, ProductOnCheckoutDeleteArgs>
+    ): CheckSelect<T, Prisma__ProductOnCheckoutClient<ProductOnCheckout>, Prisma__ProductOnCheckoutClient<ProductOnCheckoutGetPayload<T>>>
+
+    /**
+     * Update one ProductOnCheckout.
+     * @param {ProductOnCheckoutUpdateArgs} args - Arguments to update one ProductOnCheckout.
+     * @example
+     * // Update one ProductOnCheckout
+     * const productOnCheckout = await prisma.productOnCheckout.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends ProductOnCheckoutUpdateArgs>(
+      args: SelectSubset<T, ProductOnCheckoutUpdateArgs>
+    ): CheckSelect<T, Prisma__ProductOnCheckoutClient<ProductOnCheckout>, Prisma__ProductOnCheckoutClient<ProductOnCheckoutGetPayload<T>>>
+
+    /**
+     * Delete zero or more ProductOnCheckouts.
+     * @param {ProductOnCheckoutDeleteManyArgs} args - Arguments to filter ProductOnCheckouts to delete.
+     * @example
+     * // Delete a few ProductOnCheckouts
+     * const { count } = await prisma.productOnCheckout.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends ProductOnCheckoutDeleteManyArgs>(
+      args?: SelectSubset<T, ProductOnCheckoutDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProductOnCheckouts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductOnCheckoutUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProductOnCheckouts
+     * const productOnCheckout = await prisma.productOnCheckout.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends ProductOnCheckoutUpdateManyArgs>(
+      args: SelectSubset<T, ProductOnCheckoutUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ProductOnCheckout.
+     * @param {ProductOnCheckoutUpsertArgs} args - Arguments to update or create a ProductOnCheckout.
+     * @example
+     * // Update or create a ProductOnCheckout
+     * const productOnCheckout = await prisma.productOnCheckout.upsert({
+     *   create: {
+     *     // ... data to create a ProductOnCheckout
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProductOnCheckout we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends ProductOnCheckoutUpsertArgs>(
+      args: SelectSubset<T, ProductOnCheckoutUpsertArgs>
+    ): CheckSelect<T, Prisma__ProductOnCheckoutClient<ProductOnCheckout>, Prisma__ProductOnCheckoutClient<ProductOnCheckoutGetPayload<T>>>
+
+    /**
+     * Find one ProductOnCheckout that matches the filter or throw
+     * `NotFoundError` if no matches were found.
+     * @param {ProductOnCheckoutFindUniqueOrThrowArgs} args - Arguments to find a ProductOnCheckout
+     * @example
+     * // Get one ProductOnCheckout
+     * const productOnCheckout = await prisma.productOnCheckout.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends ProductOnCheckoutFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, ProductOnCheckoutFindUniqueOrThrowArgs>
+    ): CheckSelect<T, Prisma__ProductOnCheckoutClient<ProductOnCheckout>, Prisma__ProductOnCheckoutClient<ProductOnCheckoutGetPayload<T>>>
+
+    /**
+     * Find the first ProductOnCheckout that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductOnCheckoutFindFirstOrThrowArgs} args - Arguments to find a ProductOnCheckout
+     * @example
+     * // Get one ProductOnCheckout
+     * const productOnCheckout = await prisma.productOnCheckout.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends ProductOnCheckoutFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, ProductOnCheckoutFindFirstOrThrowArgs>
+    ): CheckSelect<T, Prisma__ProductOnCheckoutClient<ProductOnCheckout>, Prisma__ProductOnCheckoutClient<ProductOnCheckoutGetPayload<T>>>
+
+    /**
+     * Count the number of ProductOnCheckouts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductOnCheckoutCountArgs} args - Arguments to filter ProductOnCheckouts to count.
+     * @example
+     * // Count the number of ProductOnCheckouts
+     * const count = await prisma.productOnCheckout.count({
+     *   where: {
+     *     // ... the filter for the ProductOnCheckouts we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProductOnCheckoutCountArgs>(
+      args?: Subset<T, ProductOnCheckoutCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProductOnCheckoutCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProductOnCheckout.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductOnCheckoutAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProductOnCheckoutAggregateArgs>(args: Subset<T, ProductOnCheckoutAggregateArgs>): PrismaPromise<GetProductOnCheckoutAggregateType<T>>
+
+    /**
+     * Group by ProductOnCheckout.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProductOnCheckoutGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProductOnCheckoutGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProductOnCheckoutGroupByArgs['orderBy'] }
+        : { orderBy?: ProductOnCheckoutGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProductOnCheckoutGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProductOnCheckoutGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProductOnCheckout.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__ProductOnCheckoutClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    checkout<T extends CheckoutArgs = {}>(args?: Subset<T, CheckoutArgs>): CheckSelect<T, Prisma__CheckoutClient<Checkout | null >, Prisma__CheckoutClient<CheckoutGetPayload<T> | null >>;
+
+    product<T extends ProductArgs = {}>(args?: Subset<T, ProductArgs>): CheckSelect<T, Prisma__ProductClient<Product | null >, Prisma__ProductClient<ProductGetPayload<T> | null >>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * ProductOnCheckout base type for findUnique actions
+   */
+  export type ProductOnCheckoutFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the ProductOnCheckout
+     * 
+    **/
+    select?: ProductOnCheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductOnCheckoutInclude | null
+    /**
+     * Filter, which ProductOnCheckout to fetch.
+     * 
+    **/
+    where: ProductOnCheckoutWhereUniqueInput
+  }
+
+  /**
+   * ProductOnCheckout: findUnique
+   */
+  export interface ProductOnCheckoutFindUniqueArgs extends ProductOnCheckoutFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ProductOnCheckout base type for findFirst actions
+   */
+  export type ProductOnCheckoutFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the ProductOnCheckout
+     * 
+    **/
+    select?: ProductOnCheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductOnCheckoutInclude | null
+    /**
+     * Filter, which ProductOnCheckout to fetch.
+     * 
+    **/
+    where?: ProductOnCheckoutWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProductOnCheckouts to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<ProductOnCheckoutOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProductOnCheckouts.
+     * 
+    **/
+    cursor?: ProductOnCheckoutWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProductOnCheckouts from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProductOnCheckouts.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProductOnCheckouts.
+     * 
+    **/
+    distinct?: Enumerable<ProductOnCheckoutScalarFieldEnum>
+  }
+
+  /**
+   * ProductOnCheckout: findFirst
+   */
+  export interface ProductOnCheckoutFindFirstArgs extends ProductOnCheckoutFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * ProductOnCheckout findMany
+   */
+  export type ProductOnCheckoutFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the ProductOnCheckout
+     * 
+    **/
+    select?: ProductOnCheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductOnCheckoutInclude | null
+    /**
+     * Filter, which ProductOnCheckouts to fetch.
+     * 
+    **/
+    where?: ProductOnCheckoutWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProductOnCheckouts to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<ProductOnCheckoutOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProductOnCheckouts.
+     * 
+    **/
+    cursor?: ProductOnCheckoutWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProductOnCheckouts from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProductOnCheckouts.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<ProductOnCheckoutScalarFieldEnum>
+  }
+
+
+  /**
+   * ProductOnCheckout create
+   */
+  export type ProductOnCheckoutCreateArgs = {
+    /**
+     * Select specific fields to fetch from the ProductOnCheckout
+     * 
+    **/
+    select?: ProductOnCheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductOnCheckoutInclude | null
+    /**
+     * The data needed to create a ProductOnCheckout.
+     * 
+    **/
+    data: XOR<ProductOnCheckoutCreateInput, ProductOnCheckoutUncheckedCreateInput>
+  }
+
+
+  /**
+   * ProductOnCheckout update
+   */
+  export type ProductOnCheckoutUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the ProductOnCheckout
+     * 
+    **/
+    select?: ProductOnCheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductOnCheckoutInclude | null
+    /**
+     * The data needed to update a ProductOnCheckout.
+     * 
+    **/
+    data: XOR<ProductOnCheckoutUpdateInput, ProductOnCheckoutUncheckedUpdateInput>
+    /**
+     * Choose, which ProductOnCheckout to update.
+     * 
+    **/
+    where: ProductOnCheckoutWhereUniqueInput
+  }
+
+
+  /**
+   * ProductOnCheckout updateMany
+   */
+  export type ProductOnCheckoutUpdateManyArgs = {
+    /**
+     * The data used to update ProductOnCheckouts.
+     * 
+    **/
+    data: XOR<ProductOnCheckoutUpdateManyMutationInput, ProductOnCheckoutUncheckedUpdateManyInput>
+    /**
+     * Filter which ProductOnCheckouts to update
+     * 
+    **/
+    where?: ProductOnCheckoutWhereInput
+  }
+
+
+  /**
+   * ProductOnCheckout upsert
+   */
+  export type ProductOnCheckoutUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the ProductOnCheckout
+     * 
+    **/
+    select?: ProductOnCheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductOnCheckoutInclude | null
+    /**
+     * The filter to search for the ProductOnCheckout to update in case it exists.
+     * 
+    **/
+    where: ProductOnCheckoutWhereUniqueInput
+    /**
+     * In case the ProductOnCheckout found by the `where` argument doesn't exist, create a new ProductOnCheckout with this data.
+     * 
+    **/
+    create: XOR<ProductOnCheckoutCreateInput, ProductOnCheckoutUncheckedCreateInput>
+    /**
+     * In case the ProductOnCheckout was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<ProductOnCheckoutUpdateInput, ProductOnCheckoutUncheckedUpdateInput>
+  }
+
+
+  /**
+   * ProductOnCheckout delete
+   */
+  export type ProductOnCheckoutDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the ProductOnCheckout
+     * 
+    **/
+    select?: ProductOnCheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductOnCheckoutInclude | null
+    /**
+     * Filter which ProductOnCheckout to delete.
+     * 
+    **/
+    where: ProductOnCheckoutWhereUniqueInput
+  }
+
+
+  /**
+   * ProductOnCheckout deleteMany
+   */
+  export type ProductOnCheckoutDeleteManyArgs = {
+    /**
+     * Filter which ProductOnCheckouts to delete
+     * 
+    **/
+    where?: ProductOnCheckoutWhereInput
+  }
+
+
+  /**
+   * ProductOnCheckout: findUniqueOrThrow
+   */
+  export type ProductOnCheckoutFindUniqueOrThrowArgs = ProductOnCheckoutFindUniqueArgsBase
+      
+
+  /**
+   * ProductOnCheckout: findFirstOrThrow
+   */
+  export type ProductOnCheckoutFindFirstOrThrowArgs = ProductOnCheckoutFindFirstArgsBase
+      
+
+  /**
+   * ProductOnCheckout without action
+   */
+  export type ProductOnCheckoutArgs = {
+    /**
+     * Select specific fields to fetch from the ProductOnCheckout
+     * 
+    **/
+    select?: ProductOnCheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: ProductOnCheckoutInclude | null
+  }
+
+
+
+  /**
+   * Model Checkout
+   */
+
+
+  export type AggregateCheckout = {
+    _count: CheckoutCountAggregateOutputType | null
+    _avg: CheckoutAvgAggregateOutputType | null
+    _sum: CheckoutSumAggregateOutputType | null
+    _min: CheckoutMinAggregateOutputType | null
+    _max: CheckoutMaxAggregateOutputType | null
+  }
+
+  export type CheckoutAvgAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    price: number | null
+  }
+
+  export type CheckoutSumAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    price: number | null
+  }
+
+  export type CheckoutMinAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    price: number | null
+    status: string | null
+    transferCapture: string | null
+    transferAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CheckoutMaxAggregateOutputType = {
+    id: number | null
+    userId: number | null
+    price: number | null
+    status: string | null
+    transferCapture: string | null
+    transferAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CheckoutCountAggregateOutputType = {
+    id: number
+    userId: number
+    price: number
+    status: number
+    transferCapture: number
+    transferAt: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CheckoutAvgAggregateInputType = {
+    id?: true
+    userId?: true
+    price?: true
+  }
+
+  export type CheckoutSumAggregateInputType = {
+    id?: true
+    userId?: true
+    price?: true
+  }
+
+  export type CheckoutMinAggregateInputType = {
+    id?: true
+    userId?: true
+    price?: true
+    status?: true
+    transferCapture?: true
+    transferAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CheckoutMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    price?: true
+    status?: true
+    transferCapture?: true
+    transferAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CheckoutCountAggregateInputType = {
+    id?: true
+    userId?: true
+    price?: true
+    status?: true
+    transferCapture?: true
+    transferAt?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CheckoutAggregateArgs = {
+    /**
+     * Filter which Checkout to aggregate.
+     * 
+    **/
+    where?: CheckoutWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Checkouts to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<CheckoutOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     * 
+    **/
+    cursor?: CheckoutWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Checkouts from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Checkouts.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Checkouts
+    **/
+    _count?: true | CheckoutCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CheckoutAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CheckoutSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CheckoutMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CheckoutMaxAggregateInputType
+  }
+
+  export type GetCheckoutAggregateType<T extends CheckoutAggregateArgs> = {
+        [P in keyof T & keyof AggregateCheckout]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCheckout[P]>
+      : GetScalarType<T[P], AggregateCheckout[P]>
+  }
+
+
+
+
+  export type CheckoutGroupByArgs = {
+    where?: CheckoutWhereInput
+    orderBy?: Enumerable<CheckoutOrderByWithAggregationInput>
+    by: Array<CheckoutScalarFieldEnum>
+    having?: CheckoutScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CheckoutCountAggregateInputType | true
+    _avg?: CheckoutAvgAggregateInputType
+    _sum?: CheckoutSumAggregateInputType
+    _min?: CheckoutMinAggregateInputType
+    _max?: CheckoutMaxAggregateInputType
+  }
+
+
+  export type CheckoutGroupByOutputType = {
+    id: number
+    userId: number
+    price: number
+    status: string
+    transferCapture: string | null
+    transferAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    _count: CheckoutCountAggregateOutputType | null
+    _avg: CheckoutAvgAggregateOutputType | null
+    _sum: CheckoutSumAggregateOutputType | null
+    _min: CheckoutMinAggregateOutputType | null
+    _max: CheckoutMaxAggregateOutputType | null
+  }
+
+  type GetCheckoutGroupByPayload<T extends CheckoutGroupByArgs> = PrismaPromise<
+    Array<
+      PickArray<CheckoutGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CheckoutGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CheckoutGroupByOutputType[P]>
+            : GetScalarType<T[P], CheckoutGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CheckoutSelect = {
+    id?: boolean
+    user?: boolean | UserArgs
+    userId?: boolean
+    products?: boolean | ProductOnCheckoutFindManyArgs
+    price?: boolean
+    status?: boolean
+    transferCapture?: boolean
+    transferAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    _count?: boolean | CheckoutCountOutputTypeArgs
+  }
+
+  export type CheckoutInclude = {
+    user?: boolean | UserArgs
+    products?: boolean | ProductOnCheckoutFindManyArgs
+    _count?: boolean | CheckoutCountOutputTypeArgs
+  }
+
+  export type CheckoutGetPayload<
+    S extends boolean | null | undefined | CheckoutArgs,
+    U = keyof S
+      > = S extends true
+        ? Checkout
+    : S extends undefined
+    ? never
+    : S extends CheckoutArgs | CheckoutFindManyArgs
+    ?'include' extends U
+    ? Checkout  & {
+    [P in TrueKeys<S['include']>]:
+        P extends 'user' ? UserGetPayload<Exclude<S['include'], undefined | null>[P]> :
+        P extends 'products' ? Array < ProductOnCheckoutGetPayload<Exclude<S['include'], undefined | null>[P]>>  :
+        P extends '_count' ? CheckoutCountOutputTypeGetPayload<Exclude<S['include'], undefined | null>[P]> :  never
+  } 
+    : 'select' extends U
+    ? {
+    [P in TrueKeys<S['select']>]:
+        P extends 'user' ? UserGetPayload<Exclude<S['select'], undefined | null>[P]> :
+        P extends 'products' ? Array < ProductOnCheckoutGetPayload<Exclude<S['select'], undefined | null>[P]>>  :
+        P extends '_count' ? CheckoutCountOutputTypeGetPayload<Exclude<S['select'], undefined | null>[P]> :  P extends keyof Checkout ? Checkout[P] : never
+  } 
+    : Checkout
+  : Checkout
+
+
+  type CheckoutCountArgs = Merge<
+    Omit<CheckoutFindManyArgs, 'select' | 'include'> & {
+      select?: CheckoutCountAggregateInputType | true
+    }
+  >
+
+  export interface CheckoutDelegate<GlobalRejectSettings extends Prisma.RejectOnNotFound | Prisma.RejectPerOperation | false | undefined> {
+    /**
+     * Find zero or one Checkout that matches the filter.
+     * @param {CheckoutFindUniqueArgs} args - Arguments to find a Checkout
+     * @example
+     * // Get one Checkout
+     * const checkout = await prisma.checkout.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends CheckoutFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, CheckoutFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'Checkout'> extends True ? CheckSelect<T, Prisma__CheckoutClient<Checkout>, Prisma__CheckoutClient<CheckoutGetPayload<T>>> : CheckSelect<T, Prisma__CheckoutClient<Checkout | null >, Prisma__CheckoutClient<CheckoutGetPayload<T> | null >>
+
+    /**
+     * Find the first Checkout that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckoutFindFirstArgs} args - Arguments to find a Checkout
+     * @example
+     * // Get one Checkout
+     * const checkout = await prisma.checkout.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends CheckoutFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, CheckoutFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'Checkout'> extends True ? CheckSelect<T, Prisma__CheckoutClient<Checkout>, Prisma__CheckoutClient<CheckoutGetPayload<T>>> : CheckSelect<T, Prisma__CheckoutClient<Checkout | null >, Prisma__CheckoutClient<CheckoutGetPayload<T> | null >>
+
+    /**
+     * Find zero or more Checkouts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckoutFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Checkouts
+     * const checkouts = await prisma.checkout.findMany()
+     * 
+     * // Get first 10 Checkouts
+     * const checkouts = await prisma.checkout.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const checkoutWithIdOnly = await prisma.checkout.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends CheckoutFindManyArgs>(
+      args?: SelectSubset<T, CheckoutFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<Checkout>>, PrismaPromise<Array<CheckoutGetPayload<T>>>>
+
+    /**
+     * Create a Checkout.
+     * @param {CheckoutCreateArgs} args - Arguments to create a Checkout.
+     * @example
+     * // Create one Checkout
+     * const Checkout = await prisma.checkout.create({
+     *   data: {
+     *     // ... data to create a Checkout
+     *   }
+     * })
+     * 
+    **/
+    create<T extends CheckoutCreateArgs>(
+      args: SelectSubset<T, CheckoutCreateArgs>
+    ): CheckSelect<T, Prisma__CheckoutClient<Checkout>, Prisma__CheckoutClient<CheckoutGetPayload<T>>>
+
+    /**
+     * Delete a Checkout.
+     * @param {CheckoutDeleteArgs} args - Arguments to delete one Checkout.
+     * @example
+     * // Delete one Checkout
+     * const Checkout = await prisma.checkout.delete({
+     *   where: {
+     *     // ... filter to delete one Checkout
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends CheckoutDeleteArgs>(
+      args: SelectSubset<T, CheckoutDeleteArgs>
+    ): CheckSelect<T, Prisma__CheckoutClient<Checkout>, Prisma__CheckoutClient<CheckoutGetPayload<T>>>
+
+    /**
+     * Update one Checkout.
+     * @param {CheckoutUpdateArgs} args - Arguments to update one Checkout.
+     * @example
+     * // Update one Checkout
+     * const checkout = await prisma.checkout.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends CheckoutUpdateArgs>(
+      args: SelectSubset<T, CheckoutUpdateArgs>
+    ): CheckSelect<T, Prisma__CheckoutClient<Checkout>, Prisma__CheckoutClient<CheckoutGetPayload<T>>>
+
+    /**
+     * Delete zero or more Checkouts.
+     * @param {CheckoutDeleteManyArgs} args - Arguments to filter Checkouts to delete.
+     * @example
+     * // Delete a few Checkouts
+     * const { count } = await prisma.checkout.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends CheckoutDeleteManyArgs>(
+      args?: SelectSubset<T, CheckoutDeleteManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Checkouts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckoutUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Checkouts
+     * const checkout = await prisma.checkout.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends CheckoutUpdateManyArgs>(
+      args: SelectSubset<T, CheckoutUpdateManyArgs>
+    ): PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Checkout.
+     * @param {CheckoutUpsertArgs} args - Arguments to update or create a Checkout.
+     * @example
+     * // Update or create a Checkout
+     * const checkout = await prisma.checkout.upsert({
+     *   create: {
+     *     // ... data to create a Checkout
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Checkout we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends CheckoutUpsertArgs>(
+      args: SelectSubset<T, CheckoutUpsertArgs>
+    ): CheckSelect<T, Prisma__CheckoutClient<Checkout>, Prisma__CheckoutClient<CheckoutGetPayload<T>>>
+
+    /**
+     * Find one Checkout that matches the filter or throw
+     * `NotFoundError` if no matches were found.
+     * @param {CheckoutFindUniqueOrThrowArgs} args - Arguments to find a Checkout
+     * @example
+     * // Get one Checkout
+     * const checkout = await prisma.checkout.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends CheckoutFindUniqueOrThrowArgs>(
+      args?: SelectSubset<T, CheckoutFindUniqueOrThrowArgs>
+    ): CheckSelect<T, Prisma__CheckoutClient<Checkout>, Prisma__CheckoutClient<CheckoutGetPayload<T>>>
+
+    /**
+     * Find the first Checkout that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckoutFindFirstOrThrowArgs} args - Arguments to find a Checkout
+     * @example
+     * // Get one Checkout
+     * const checkout = await prisma.checkout.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends CheckoutFindFirstOrThrowArgs>(
+      args?: SelectSubset<T, CheckoutFindFirstOrThrowArgs>
+    ): CheckSelect<T, Prisma__CheckoutClient<Checkout>, Prisma__CheckoutClient<CheckoutGetPayload<T>>>
+
+    /**
+     * Count the number of Checkouts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckoutCountArgs} args - Arguments to filter Checkouts to count.
+     * @example
+     * // Count the number of Checkouts
+     * const count = await prisma.checkout.count({
+     *   where: {
+     *     // ... the filter for the Checkouts we want to count
+     *   }
+     * })
+    **/
+    count<T extends CheckoutCountArgs>(
+      args?: Subset<T, CheckoutCountArgs>,
+    ): PrismaPromise<
+      T extends _Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CheckoutCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Checkout.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckoutAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CheckoutAggregateArgs>(args: Subset<T, CheckoutAggregateArgs>): PrismaPromise<GetCheckoutAggregateType<T>>
+
+    /**
+     * Group by Checkout.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CheckoutGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CheckoutGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CheckoutGroupByArgs['orderBy'] }
+        : { orderBy?: CheckoutGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CheckoutGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCheckoutGroupByPayload<T> : PrismaPromise<InputErrors>
+
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Checkout.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__CheckoutClient<T> implements PrismaPromise<T> {
+    [prisma]: true;
+    private readonly _dmmf;
+    private readonly _fetcher;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
+
+    user<T extends UserArgs = {}>(args?: Subset<T, UserArgs>): CheckSelect<T, Prisma__UserClient<User | null >, Prisma__UserClient<UserGetPayload<T> | null >>;
+
+    products<T extends ProductOnCheckoutFindManyArgs = {}>(args?: Subset<T, ProductOnCheckoutFindManyArgs>): CheckSelect<T, PrismaPromise<Array<ProductOnCheckout>>, PrismaPromise<Array<ProductOnCheckoutGetPayload<T>>>>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  // Custom InputTypes
+
+  /**
+   * Checkout base type for findUnique actions
+   */
+  export type CheckoutFindUniqueArgsBase = {
+    /**
+     * Select specific fields to fetch from the Checkout
+     * 
+    **/
+    select?: CheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CheckoutInclude | null
+    /**
+     * Filter, which Checkout to fetch.
+     * 
+    **/
+    where: CheckoutWhereUniqueInput
+  }
+
+  /**
+   * Checkout: findUnique
+   */
+  export interface CheckoutFindUniqueArgs extends CheckoutFindUniqueArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Checkout base type for findFirst actions
+   */
+  export type CheckoutFindFirstArgsBase = {
+    /**
+     * Select specific fields to fetch from the Checkout
+     * 
+    **/
+    select?: CheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CheckoutInclude | null
+    /**
+     * Filter, which Checkout to fetch.
+     * 
+    **/
+    where?: CheckoutWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Checkouts to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<CheckoutOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Checkouts.
+     * 
+    **/
+    cursor?: CheckoutWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Checkouts from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Checkouts.
+     * 
+    **/
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Checkouts.
+     * 
+    **/
+    distinct?: Enumerable<CheckoutScalarFieldEnum>
+  }
+
+  /**
+   * Checkout: findFirst
+   */
+  export interface CheckoutFindFirstArgs extends CheckoutFindFirstArgsBase {
+   /**
+    * Throw an Error if query returns no results
+    * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+    */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+      
+
+  /**
+   * Checkout findMany
+   */
+  export type CheckoutFindManyArgs = {
+    /**
+     * Select specific fields to fetch from the Checkout
+     * 
+    **/
+    select?: CheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CheckoutInclude | null
+    /**
+     * Filter, which Checkouts to fetch.
+     * 
+    **/
+    where?: CheckoutWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Checkouts to fetch.
+     * 
+    **/
+    orderBy?: Enumerable<CheckoutOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Checkouts.
+     * 
+    **/
+    cursor?: CheckoutWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Checkouts from the position of the cursor.
+     * 
+    **/
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Checkouts.
+     * 
+    **/
+    skip?: number
+    distinct?: Enumerable<CheckoutScalarFieldEnum>
+  }
+
+
+  /**
+   * Checkout create
+   */
+  export type CheckoutCreateArgs = {
+    /**
+     * Select specific fields to fetch from the Checkout
+     * 
+    **/
+    select?: CheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CheckoutInclude | null
+    /**
+     * The data needed to create a Checkout.
+     * 
+    **/
+    data: XOR<CheckoutCreateInput, CheckoutUncheckedCreateInput>
+  }
+
+
+  /**
+   * Checkout update
+   */
+  export type CheckoutUpdateArgs = {
+    /**
+     * Select specific fields to fetch from the Checkout
+     * 
+    **/
+    select?: CheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CheckoutInclude | null
+    /**
+     * The data needed to update a Checkout.
+     * 
+    **/
+    data: XOR<CheckoutUpdateInput, CheckoutUncheckedUpdateInput>
+    /**
+     * Choose, which Checkout to update.
+     * 
+    **/
+    where: CheckoutWhereUniqueInput
+  }
+
+
+  /**
+   * Checkout updateMany
+   */
+  export type CheckoutUpdateManyArgs = {
+    /**
+     * The data used to update Checkouts.
+     * 
+    **/
+    data: XOR<CheckoutUpdateManyMutationInput, CheckoutUncheckedUpdateManyInput>
+    /**
+     * Filter which Checkouts to update
+     * 
+    **/
+    where?: CheckoutWhereInput
+  }
+
+
+  /**
+   * Checkout upsert
+   */
+  export type CheckoutUpsertArgs = {
+    /**
+     * Select specific fields to fetch from the Checkout
+     * 
+    **/
+    select?: CheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CheckoutInclude | null
+    /**
+     * The filter to search for the Checkout to update in case it exists.
+     * 
+    **/
+    where: CheckoutWhereUniqueInput
+    /**
+     * In case the Checkout found by the `where` argument doesn't exist, create a new Checkout with this data.
+     * 
+    **/
+    create: XOR<CheckoutCreateInput, CheckoutUncheckedCreateInput>
+    /**
+     * In case the Checkout was found with the provided `where` argument, update it with this data.
+     * 
+    **/
+    update: XOR<CheckoutUpdateInput, CheckoutUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Checkout delete
+   */
+  export type CheckoutDeleteArgs = {
+    /**
+     * Select specific fields to fetch from the Checkout
+     * 
+    **/
+    select?: CheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CheckoutInclude | null
+    /**
+     * Filter which Checkout to delete.
+     * 
+    **/
+    where: CheckoutWhereUniqueInput
+  }
+
+
+  /**
+   * Checkout deleteMany
+   */
+  export type CheckoutDeleteManyArgs = {
+    /**
+     * Filter which Checkouts to delete
+     * 
+    **/
+    where?: CheckoutWhereInput
+  }
+
+
+  /**
+   * Checkout: findUniqueOrThrow
+   */
+  export type CheckoutFindUniqueOrThrowArgs = CheckoutFindUniqueArgsBase
+      
+
+  /**
+   * Checkout: findFirstOrThrow
+   */
+  export type CheckoutFindFirstOrThrowArgs = CheckoutFindFirstArgsBase
+      
+
+  /**
+   * Checkout without action
+   */
+  export type CheckoutArgs = {
+    /**
+     * Select specific fields to fetch from the Checkout
+     * 
+    **/
+    select?: CheckoutSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     * 
+    **/
+    include?: CheckoutInclude | null
   }
 
 
@@ -3519,6 +5705,28 @@ export namespace Prisma {
   };
 
   export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
+
+
+  export const CheckoutScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    price: 'price',
+    status: 'status',
+    transferCapture: 'transferCapture',
+    transferAt: 'transferAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CheckoutScalarFieldEnum = (typeof CheckoutScalarFieldEnum)[keyof typeof CheckoutScalarFieldEnum]
+
+
+  export const ProductOnCheckoutScalarFieldEnum: {
+    checkoutId: 'checkoutId',
+    productId: 'productId'
+  };
+
+  export type ProductOnCheckoutScalarFieldEnum = (typeof ProductOnCheckoutScalarFieldEnum)[keyof typeof ProductOnCheckoutScalarFieldEnum]
 
 
   export const ProductScalarFieldEnum: {
@@ -3571,6 +5779,7 @@ export namespace Prisma {
     id?: IntFilter | number
     email?: StringFilter | string
     password?: StringFilter | string
+    checkouts?: CheckoutListRelationFilter
     createdAt?: DateTimeFilter | Date | string
   }
 
@@ -3578,6 +5787,7 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    checkouts?: CheckoutOrderByRelationAggregateInput
     createdAt?: SortOrder
   }
 
@@ -3661,6 +5871,7 @@ export namespace Prisma {
     description?: StringFilter | string
     images?: StringFilter | string
     price?: FloatFilter | number
+    checkouts?: ProductOnCheckoutListRelationFilter
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
   }
@@ -3671,6 +5882,7 @@ export namespace Prisma {
     description?: SortOrder
     images?: SortOrder
     price?: SortOrder
+    checkouts?: ProductOnCheckoutOrderByRelationAggregateInput
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -3707,9 +5919,112 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
+  export type ProductOnCheckoutWhereInput = {
+    AND?: Enumerable<ProductOnCheckoutWhereInput>
+    OR?: Enumerable<ProductOnCheckoutWhereInput>
+    NOT?: Enumerable<ProductOnCheckoutWhereInput>
+    checkout?: XOR<CheckoutRelationFilter, CheckoutWhereInput>
+    checkoutId?: IntFilter | number
+    product?: XOR<ProductRelationFilter, ProductWhereInput>
+    productId?: IntFilter | number
+  }
+
+  export type ProductOnCheckoutOrderByWithRelationInput = {
+    checkout?: CheckoutOrderByWithRelationInput
+    checkoutId?: SortOrder
+    product?: ProductOrderByWithRelationInput
+    productId?: SortOrder
+  }
+
+  export type ProductOnCheckoutWhereUniqueInput = {
+    checkoutId_productId?: ProductOnCheckoutCheckoutIdProductIdCompoundUniqueInput
+  }
+
+  export type ProductOnCheckoutOrderByWithAggregationInput = {
+    checkoutId?: SortOrder
+    productId?: SortOrder
+    _count?: ProductOnCheckoutCountOrderByAggregateInput
+    _avg?: ProductOnCheckoutAvgOrderByAggregateInput
+    _max?: ProductOnCheckoutMaxOrderByAggregateInput
+    _min?: ProductOnCheckoutMinOrderByAggregateInput
+    _sum?: ProductOnCheckoutSumOrderByAggregateInput
+  }
+
+  export type ProductOnCheckoutScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<ProductOnCheckoutScalarWhereWithAggregatesInput>
+    OR?: Enumerable<ProductOnCheckoutScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<ProductOnCheckoutScalarWhereWithAggregatesInput>
+    checkoutId?: IntWithAggregatesFilter | number
+    productId?: IntWithAggregatesFilter | number
+  }
+
+  export type CheckoutWhereInput = {
+    AND?: Enumerable<CheckoutWhereInput>
+    OR?: Enumerable<CheckoutWhereInput>
+    NOT?: Enumerable<CheckoutWhereInput>
+    id?: IntFilter | number
+    user?: XOR<UserRelationFilter, UserWhereInput>
+    userId?: IntFilter | number
+    products?: ProductOnCheckoutListRelationFilter
+    price?: FloatFilter | number
+    status?: StringFilter | string
+    transferCapture?: StringNullableFilter | string | null
+    transferAt?: DateTimeNullableFilter | Date | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
+  export type CheckoutOrderByWithRelationInput = {
+    id?: SortOrder
+    user?: UserOrderByWithRelationInput
+    userId?: SortOrder
+    products?: ProductOnCheckoutOrderByRelationAggregateInput
+    price?: SortOrder
+    status?: SortOrder
+    transferCapture?: SortOrder
+    transferAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CheckoutWhereUniqueInput = {
+    id?: number
+  }
+
+  export type CheckoutOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    price?: SortOrder
+    status?: SortOrder
+    transferCapture?: SortOrder
+    transferAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CheckoutCountOrderByAggregateInput
+    _avg?: CheckoutAvgOrderByAggregateInput
+    _max?: CheckoutMaxOrderByAggregateInput
+    _min?: CheckoutMinOrderByAggregateInput
+    _sum?: CheckoutSumOrderByAggregateInput
+  }
+
+  export type CheckoutScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<CheckoutScalarWhereWithAggregatesInput>
+    OR?: Enumerable<CheckoutScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<CheckoutScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    userId?: IntWithAggregatesFilter | number
+    price?: FloatWithAggregatesFilter | number
+    status?: StringWithAggregatesFilter | string
+    transferCapture?: StringNullableWithAggregatesFilter | string | null
+    transferAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+  }
+
   export type UserCreateInput = {
     email: string
     password: string
+    checkouts?: CheckoutCreateNestedManyWithoutUserInput
     createdAt?: Date | string
   }
 
@@ -3717,12 +6032,14 @@ export namespace Prisma {
     id?: number
     email: string
     password: string
+    checkouts?: CheckoutUncheckedCreateNestedManyWithoutUserInput
     createdAt?: Date | string
   }
 
   export type UserUpdateInput = {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    checkouts?: CheckoutUpdateManyWithoutUserNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -3730,6 +6047,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    checkouts?: CheckoutUncheckedUpdateManyWithoutUserNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -3790,6 +6108,7 @@ export namespace Prisma {
     description: string
     images: string
     price: number
+    checkouts?: ProductOnCheckoutCreateNestedManyWithoutProductInput
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -3800,6 +6119,7 @@ export namespace Prisma {
     description: string
     images: string
     price: number
+    checkouts?: ProductOnCheckoutUncheckedCreateNestedManyWithoutProductInput
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -3809,6 +6129,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     images?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
+    checkouts?: ProductOnCheckoutUpdateManyWithoutProductNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -3819,6 +6140,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     images?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
+    checkouts?: ProductOnCheckoutUncheckedUpdateManyWithoutProductNestedInput
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -3838,6 +6160,101 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     images?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProductOnCheckoutCreateInput = {
+    checkout: CheckoutCreateNestedOneWithoutProductsInput
+    product: ProductCreateNestedOneWithoutCheckoutsInput
+  }
+
+  export type ProductOnCheckoutUncheckedCreateInput = {
+    checkoutId: number
+    productId: number
+  }
+
+  export type ProductOnCheckoutUpdateInput = {
+    checkout?: CheckoutUpdateOneRequiredWithoutProductsNestedInput
+    product?: ProductUpdateOneRequiredWithoutCheckoutsNestedInput
+  }
+
+  export type ProductOnCheckoutUncheckedUpdateInput = {
+    checkoutId?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ProductOnCheckoutUpdateManyMutationInput = {
+
+  }
+
+  export type ProductOnCheckoutUncheckedUpdateManyInput = {
+    checkoutId?: IntFieldUpdateOperationsInput | number
+    productId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type CheckoutCreateInput = {
+    user: UserCreateNestedOneWithoutCheckoutsInput
+    products?: ProductOnCheckoutCreateNestedManyWithoutCheckoutInput
+    price: number
+    status?: string
+    transferCapture?: string | null
+    transferAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CheckoutUncheckedCreateInput = {
+    id?: number
+    userId: number
+    products?: ProductOnCheckoutUncheckedCreateNestedManyWithoutCheckoutInput
+    price: number
+    status?: string
+    transferCapture?: string | null
+    transferAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CheckoutUpdateInput = {
+    user?: UserUpdateOneRequiredWithoutCheckoutsNestedInput
+    products?: ProductOnCheckoutUpdateManyWithoutCheckoutNestedInput
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    transferCapture?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CheckoutUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    products?: ProductOnCheckoutUncheckedUpdateManyWithoutCheckoutNestedInput
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    transferCapture?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CheckoutUpdateManyMutationInput = {
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    transferCapture?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CheckoutUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    transferCapture?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -3867,6 +6284,12 @@ export namespace Prisma {
     not?: NestedStringFilter | string
   }
 
+  export type CheckoutListRelationFilter = {
+    every?: CheckoutWhereInput
+    some?: CheckoutWhereInput
+    none?: CheckoutWhereInput
+  }
+
   export type DateTimeFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string>
@@ -3876,6 +6299,10 @@ export namespace Prisma {
     gt?: Date | string
     gte?: Date | string
     not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type CheckoutOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -3994,6 +6421,16 @@ export namespace Prisma {
     not?: NestedFloatFilter | number
   }
 
+  export type ProductOnCheckoutListRelationFilter = {
+    every?: ProductOnCheckoutWhereInput
+    some?: ProductOnCheckoutWhereInput
+    none?: ProductOnCheckoutWhereInput
+  }
+
+  export type ProductOnCheckoutOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type ProductCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -4050,8 +6487,179 @@ export namespace Prisma {
     _max?: NestedFloatFilter
   }
 
+  export type CheckoutRelationFilter = {
+    is?: CheckoutWhereInput
+    isNot?: CheckoutWhereInput
+  }
+
+  export type ProductRelationFilter = {
+    is?: ProductWhereInput
+    isNot?: ProductWhereInput
+  }
+
+  export type ProductOnCheckoutCheckoutIdProductIdCompoundUniqueInput = {
+    checkoutId: number
+    productId: number
+  }
+
+  export type ProductOnCheckoutCountOrderByAggregateInput = {
+    checkoutId?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type ProductOnCheckoutAvgOrderByAggregateInput = {
+    checkoutId?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type ProductOnCheckoutMaxOrderByAggregateInput = {
+    checkoutId?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type ProductOnCheckoutMinOrderByAggregateInput = {
+    checkoutId?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type ProductOnCheckoutSumOrderByAggregateInput = {
+    checkoutId?: SortOrder
+    productId?: SortOrder
+  }
+
+  export type UserRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
+  export type StringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableFilter | string | null
+  }
+
+  export type DateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
+  }
+
+  export type CheckoutCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    price?: SortOrder
+    status?: SortOrder
+    transferCapture?: SortOrder
+    transferAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CheckoutAvgOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    price?: SortOrder
+  }
+
+  export type CheckoutMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    price?: SortOrder
+    status?: SortOrder
+    transferCapture?: SortOrder
+    transferAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CheckoutMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    price?: SortOrder
+    status?: SortOrder
+    transferCapture?: SortOrder
+    transferAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CheckoutSumOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    price?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
+  }
+
+  export type DateTimeNullableWithAggregatesFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedDateTimeNullableFilter
+    _max?: NestedDateTimeNullableFilter
+  }
+
+  export type CheckoutCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<CheckoutCreateWithoutUserInput>, Enumerable<CheckoutUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CheckoutCreateOrConnectWithoutUserInput>
+    connect?: Enumerable<CheckoutWhereUniqueInput>
+  }
+
+  export type CheckoutUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<Enumerable<CheckoutCreateWithoutUserInput>, Enumerable<CheckoutUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CheckoutCreateOrConnectWithoutUserInput>
+    connect?: Enumerable<CheckoutWhereUniqueInput>
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type CheckoutUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<CheckoutCreateWithoutUserInput>, Enumerable<CheckoutUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CheckoutCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<CheckoutUpsertWithWhereUniqueWithoutUserInput>
+    set?: Enumerable<CheckoutWhereUniqueInput>
+    disconnect?: Enumerable<CheckoutWhereUniqueInput>
+    delete?: Enumerable<CheckoutWhereUniqueInput>
+    connect?: Enumerable<CheckoutWhereUniqueInput>
+    update?: Enumerable<CheckoutUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<CheckoutUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<CheckoutScalarWhereInput>
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -4066,12 +6674,151 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type CheckoutUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<Enumerable<CheckoutCreateWithoutUserInput>, Enumerable<CheckoutUncheckedCreateWithoutUserInput>>
+    connectOrCreate?: Enumerable<CheckoutCreateOrConnectWithoutUserInput>
+    upsert?: Enumerable<CheckoutUpsertWithWhereUniqueWithoutUserInput>
+    set?: Enumerable<CheckoutWhereUniqueInput>
+    disconnect?: Enumerable<CheckoutWhereUniqueInput>
+    delete?: Enumerable<CheckoutWhereUniqueInput>
+    connect?: Enumerable<CheckoutWhereUniqueInput>
+    update?: Enumerable<CheckoutUpdateWithWhereUniqueWithoutUserInput>
+    updateMany?: Enumerable<CheckoutUpdateManyWithWhereWithoutUserInput>
+    deleteMany?: Enumerable<CheckoutScalarWhereInput>
+  }
+
+  export type ProductOnCheckoutCreateNestedManyWithoutProductInput = {
+    create?: XOR<Enumerable<ProductOnCheckoutCreateWithoutProductInput>, Enumerable<ProductOnCheckoutUncheckedCreateWithoutProductInput>>
+    connectOrCreate?: Enumerable<ProductOnCheckoutCreateOrConnectWithoutProductInput>
+    connect?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+  }
+
+  export type ProductOnCheckoutUncheckedCreateNestedManyWithoutProductInput = {
+    create?: XOR<Enumerable<ProductOnCheckoutCreateWithoutProductInput>, Enumerable<ProductOnCheckoutUncheckedCreateWithoutProductInput>>
+    connectOrCreate?: Enumerable<ProductOnCheckoutCreateOrConnectWithoutProductInput>
+    connect?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+  }
+
   export type FloatFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type ProductOnCheckoutUpdateManyWithoutProductNestedInput = {
+    create?: XOR<Enumerable<ProductOnCheckoutCreateWithoutProductInput>, Enumerable<ProductOnCheckoutUncheckedCreateWithoutProductInput>>
+    connectOrCreate?: Enumerable<ProductOnCheckoutCreateOrConnectWithoutProductInput>
+    upsert?: Enumerable<ProductOnCheckoutUpsertWithWhereUniqueWithoutProductInput>
+    set?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    disconnect?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    delete?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    connect?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    update?: Enumerable<ProductOnCheckoutUpdateWithWhereUniqueWithoutProductInput>
+    updateMany?: Enumerable<ProductOnCheckoutUpdateManyWithWhereWithoutProductInput>
+    deleteMany?: Enumerable<ProductOnCheckoutScalarWhereInput>
+  }
+
+  export type ProductOnCheckoutUncheckedUpdateManyWithoutProductNestedInput = {
+    create?: XOR<Enumerable<ProductOnCheckoutCreateWithoutProductInput>, Enumerable<ProductOnCheckoutUncheckedCreateWithoutProductInput>>
+    connectOrCreate?: Enumerable<ProductOnCheckoutCreateOrConnectWithoutProductInput>
+    upsert?: Enumerable<ProductOnCheckoutUpsertWithWhereUniqueWithoutProductInput>
+    set?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    disconnect?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    delete?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    connect?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    update?: Enumerable<ProductOnCheckoutUpdateWithWhereUniqueWithoutProductInput>
+    updateMany?: Enumerable<ProductOnCheckoutUpdateManyWithWhereWithoutProductInput>
+    deleteMany?: Enumerable<ProductOnCheckoutScalarWhereInput>
+  }
+
+  export type CheckoutCreateNestedOneWithoutProductsInput = {
+    create?: XOR<CheckoutCreateWithoutProductsInput, CheckoutUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: CheckoutCreateOrConnectWithoutProductsInput
+    connect?: CheckoutWhereUniqueInput
+  }
+
+  export type ProductCreateNestedOneWithoutCheckoutsInput = {
+    create?: XOR<ProductCreateWithoutCheckoutsInput, ProductUncheckedCreateWithoutCheckoutsInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutCheckoutsInput
+    connect?: ProductWhereUniqueInput
+  }
+
+  export type CheckoutUpdateOneRequiredWithoutProductsNestedInput = {
+    create?: XOR<CheckoutCreateWithoutProductsInput, CheckoutUncheckedCreateWithoutProductsInput>
+    connectOrCreate?: CheckoutCreateOrConnectWithoutProductsInput
+    upsert?: CheckoutUpsertWithoutProductsInput
+    connect?: CheckoutWhereUniqueInput
+    update?: XOR<CheckoutUpdateWithoutProductsInput, CheckoutUncheckedUpdateWithoutProductsInput>
+  }
+
+  export type ProductUpdateOneRequiredWithoutCheckoutsNestedInput = {
+    create?: XOR<ProductCreateWithoutCheckoutsInput, ProductUncheckedCreateWithoutCheckoutsInput>
+    connectOrCreate?: ProductCreateOrConnectWithoutCheckoutsInput
+    upsert?: ProductUpsertWithoutCheckoutsInput
+    connect?: ProductWhereUniqueInput
+    update?: XOR<ProductUpdateWithoutCheckoutsInput, ProductUncheckedUpdateWithoutCheckoutsInput>
+  }
+
+  export type UserCreateNestedOneWithoutCheckoutsInput = {
+    create?: XOR<UserCreateWithoutCheckoutsInput, UserUncheckedCreateWithoutCheckoutsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCheckoutsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ProductOnCheckoutCreateNestedManyWithoutCheckoutInput = {
+    create?: XOR<Enumerable<ProductOnCheckoutCreateWithoutCheckoutInput>, Enumerable<ProductOnCheckoutUncheckedCreateWithoutCheckoutInput>>
+    connectOrCreate?: Enumerable<ProductOnCheckoutCreateOrConnectWithoutCheckoutInput>
+    connect?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+  }
+
+  export type ProductOnCheckoutUncheckedCreateNestedManyWithoutCheckoutInput = {
+    create?: XOR<Enumerable<ProductOnCheckoutCreateWithoutCheckoutInput>, Enumerable<ProductOnCheckoutUncheckedCreateWithoutCheckoutInput>>
+    connectOrCreate?: Enumerable<ProductOnCheckoutCreateOrConnectWithoutCheckoutInput>
+    connect?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutCheckoutsNestedInput = {
+    create?: XOR<UserCreateWithoutCheckoutsInput, UserUncheckedCreateWithoutCheckoutsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutCheckoutsInput
+    upsert?: UserUpsertWithoutCheckoutsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<UserUpdateWithoutCheckoutsInput, UserUncheckedUpdateWithoutCheckoutsInput>
+  }
+
+  export type ProductOnCheckoutUpdateManyWithoutCheckoutNestedInput = {
+    create?: XOR<Enumerable<ProductOnCheckoutCreateWithoutCheckoutInput>, Enumerable<ProductOnCheckoutUncheckedCreateWithoutCheckoutInput>>
+    connectOrCreate?: Enumerable<ProductOnCheckoutCreateOrConnectWithoutCheckoutInput>
+    upsert?: Enumerable<ProductOnCheckoutUpsertWithWhereUniqueWithoutCheckoutInput>
+    set?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    disconnect?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    delete?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    connect?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    update?: Enumerable<ProductOnCheckoutUpdateWithWhereUniqueWithoutCheckoutInput>
+    updateMany?: Enumerable<ProductOnCheckoutUpdateManyWithWhereWithoutCheckoutInput>
+    deleteMany?: Enumerable<ProductOnCheckoutScalarWhereInput>
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type ProductOnCheckoutUncheckedUpdateManyWithoutCheckoutNestedInput = {
+    create?: XOR<Enumerable<ProductOnCheckoutCreateWithoutCheckoutInput>, Enumerable<ProductOnCheckoutUncheckedCreateWithoutCheckoutInput>>
+    connectOrCreate?: Enumerable<ProductOnCheckoutCreateOrConnectWithoutCheckoutInput>
+    upsert?: Enumerable<ProductOnCheckoutUpsertWithWhereUniqueWithoutCheckoutInput>
+    set?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    disconnect?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    delete?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    connect?: Enumerable<ProductOnCheckoutWhereUniqueInput>
+    update?: Enumerable<ProductOnCheckoutUpdateWithWhereUniqueWithoutCheckoutInput>
+    updateMany?: Enumerable<ProductOnCheckoutUpdateManyWithWhereWithoutCheckoutInput>
+    deleteMany?: Enumerable<ProductOnCheckoutScalarWhereInput>
   }
 
   export type NestedIntFilter = {
@@ -4182,6 +6929,386 @@ export namespace Prisma {
     _sum?: NestedFloatFilter
     _min?: NestedFloatFilter
     _max?: NestedFloatFilter
+  }
+
+  export type NestedStringNullableFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableFilter | string | null
+  }
+
+  export type NestedDateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter = {
+    equals?: string | null
+    in?: Enumerable<string> | null
+    notIn?: Enumerable<string> | null
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    contains?: string
+    startsWith?: string
+    endsWith?: string
+    not?: NestedStringNullableWithAggregatesFilter | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedStringNullableFilter
+    _max?: NestedStringNullableFilter
+  }
+
+  export type NestedIntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | null
+    notIn?: Enumerable<number> | null
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntNullableFilter | number | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | null
+    notIn?: Enumerable<Date> | Enumerable<string> | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedDateTimeNullableFilter
+    _max?: NestedDateTimeNullableFilter
+  }
+
+  export type CheckoutCreateWithoutUserInput = {
+    products?: ProductOnCheckoutCreateNestedManyWithoutCheckoutInput
+    price: number
+    status?: string
+    transferCapture?: string | null
+    transferAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CheckoutUncheckedCreateWithoutUserInput = {
+    id?: number
+    products?: ProductOnCheckoutUncheckedCreateNestedManyWithoutCheckoutInput
+    price: number
+    status?: string
+    transferCapture?: string | null
+    transferAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CheckoutCreateOrConnectWithoutUserInput = {
+    where: CheckoutWhereUniqueInput
+    create: XOR<CheckoutCreateWithoutUserInput, CheckoutUncheckedCreateWithoutUserInput>
+  }
+
+  export type CheckoutUpsertWithWhereUniqueWithoutUserInput = {
+    where: CheckoutWhereUniqueInput
+    update: XOR<CheckoutUpdateWithoutUserInput, CheckoutUncheckedUpdateWithoutUserInput>
+    create: XOR<CheckoutCreateWithoutUserInput, CheckoutUncheckedCreateWithoutUserInput>
+  }
+
+  export type CheckoutUpdateWithWhereUniqueWithoutUserInput = {
+    where: CheckoutWhereUniqueInput
+    data: XOR<CheckoutUpdateWithoutUserInput, CheckoutUncheckedUpdateWithoutUserInput>
+  }
+
+  export type CheckoutUpdateManyWithWhereWithoutUserInput = {
+    where: CheckoutScalarWhereInput
+    data: XOR<CheckoutUpdateManyMutationInput, CheckoutUncheckedUpdateManyWithoutCheckoutsInput>
+  }
+
+  export type CheckoutScalarWhereInput = {
+    AND?: Enumerable<CheckoutScalarWhereInput>
+    OR?: Enumerable<CheckoutScalarWhereInput>
+    NOT?: Enumerable<CheckoutScalarWhereInput>
+    id?: IntFilter | number
+    userId?: IntFilter | number
+    price?: FloatFilter | number
+    status?: StringFilter | string
+    transferCapture?: StringNullableFilter | string | null
+    transferAt?: DateTimeNullableFilter | Date | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+  }
+
+  export type ProductOnCheckoutCreateWithoutProductInput = {
+    checkout: CheckoutCreateNestedOneWithoutProductsInput
+  }
+
+  export type ProductOnCheckoutUncheckedCreateWithoutProductInput = {
+    checkoutId: number
+  }
+
+  export type ProductOnCheckoutCreateOrConnectWithoutProductInput = {
+    where: ProductOnCheckoutWhereUniqueInput
+    create: XOR<ProductOnCheckoutCreateWithoutProductInput, ProductOnCheckoutUncheckedCreateWithoutProductInput>
+  }
+
+  export type ProductOnCheckoutUpsertWithWhereUniqueWithoutProductInput = {
+    where: ProductOnCheckoutWhereUniqueInput
+    update: XOR<ProductOnCheckoutUpdateWithoutProductInput, ProductOnCheckoutUncheckedUpdateWithoutProductInput>
+    create: XOR<ProductOnCheckoutCreateWithoutProductInput, ProductOnCheckoutUncheckedCreateWithoutProductInput>
+  }
+
+  export type ProductOnCheckoutUpdateWithWhereUniqueWithoutProductInput = {
+    where: ProductOnCheckoutWhereUniqueInput
+    data: XOR<ProductOnCheckoutUpdateWithoutProductInput, ProductOnCheckoutUncheckedUpdateWithoutProductInput>
+  }
+
+  export type ProductOnCheckoutUpdateManyWithWhereWithoutProductInput = {
+    where: ProductOnCheckoutScalarWhereInput
+    data: XOR<ProductOnCheckoutUpdateManyMutationInput, ProductOnCheckoutUncheckedUpdateManyWithoutCheckoutsInput>
+  }
+
+  export type ProductOnCheckoutScalarWhereInput = {
+    AND?: Enumerable<ProductOnCheckoutScalarWhereInput>
+    OR?: Enumerable<ProductOnCheckoutScalarWhereInput>
+    NOT?: Enumerable<ProductOnCheckoutScalarWhereInput>
+    checkoutId?: IntFilter | number
+    productId?: IntFilter | number
+  }
+
+  export type CheckoutCreateWithoutProductsInput = {
+    user: UserCreateNestedOneWithoutCheckoutsInput
+    price: number
+    status?: string
+    transferCapture?: string | null
+    transferAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CheckoutUncheckedCreateWithoutProductsInput = {
+    id?: number
+    userId: number
+    price: number
+    status?: string
+    transferCapture?: string | null
+    transferAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CheckoutCreateOrConnectWithoutProductsInput = {
+    where: CheckoutWhereUniqueInput
+    create: XOR<CheckoutCreateWithoutProductsInput, CheckoutUncheckedCreateWithoutProductsInput>
+  }
+
+  export type ProductCreateWithoutCheckoutsInput = {
+    title: string
+    description: string
+    images: string
+    price: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProductUncheckedCreateWithoutCheckoutsInput = {
+    id?: number
+    title: string
+    description: string
+    images: string
+    price: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProductCreateOrConnectWithoutCheckoutsInput = {
+    where: ProductWhereUniqueInput
+    create: XOR<ProductCreateWithoutCheckoutsInput, ProductUncheckedCreateWithoutCheckoutsInput>
+  }
+
+  export type CheckoutUpsertWithoutProductsInput = {
+    update: XOR<CheckoutUpdateWithoutProductsInput, CheckoutUncheckedUpdateWithoutProductsInput>
+    create: XOR<CheckoutCreateWithoutProductsInput, CheckoutUncheckedCreateWithoutProductsInput>
+  }
+
+  export type CheckoutUpdateWithoutProductsInput = {
+    user?: UserUpdateOneRequiredWithoutCheckoutsNestedInput
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    transferCapture?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CheckoutUncheckedUpdateWithoutProductsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userId?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    transferCapture?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProductUpsertWithoutCheckoutsInput = {
+    update: XOR<ProductUpdateWithoutCheckoutsInput, ProductUncheckedUpdateWithoutCheckoutsInput>
+    create: XOR<ProductCreateWithoutCheckoutsInput, ProductUncheckedCreateWithoutCheckoutsInput>
+  }
+
+  export type ProductUpdateWithoutCheckoutsInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    images?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProductUncheckedUpdateWithoutCheckoutsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    images?: StringFieldUpdateOperationsInput | string
+    price?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreateWithoutCheckoutsInput = {
+    email: string
+    password: string
+    createdAt?: Date | string
+  }
+
+  export type UserUncheckedCreateWithoutCheckoutsInput = {
+    id?: number
+    email: string
+    password: string
+    createdAt?: Date | string
+  }
+
+  export type UserCreateOrConnectWithoutCheckoutsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutCheckoutsInput, UserUncheckedCreateWithoutCheckoutsInput>
+  }
+
+  export type ProductOnCheckoutCreateWithoutCheckoutInput = {
+    product: ProductCreateNestedOneWithoutCheckoutsInput
+  }
+
+  export type ProductOnCheckoutUncheckedCreateWithoutCheckoutInput = {
+    productId: number
+  }
+
+  export type ProductOnCheckoutCreateOrConnectWithoutCheckoutInput = {
+    where: ProductOnCheckoutWhereUniqueInput
+    create: XOR<ProductOnCheckoutCreateWithoutCheckoutInput, ProductOnCheckoutUncheckedCreateWithoutCheckoutInput>
+  }
+
+  export type UserUpsertWithoutCheckoutsInput = {
+    update: XOR<UserUpdateWithoutCheckoutsInput, UserUncheckedUpdateWithoutCheckoutsInput>
+    create: XOR<UserCreateWithoutCheckoutsInput, UserUncheckedCreateWithoutCheckoutsInput>
+  }
+
+  export type UserUpdateWithoutCheckoutsInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserUncheckedUpdateWithoutCheckoutsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProductOnCheckoutUpsertWithWhereUniqueWithoutCheckoutInput = {
+    where: ProductOnCheckoutWhereUniqueInput
+    update: XOR<ProductOnCheckoutUpdateWithoutCheckoutInput, ProductOnCheckoutUncheckedUpdateWithoutCheckoutInput>
+    create: XOR<ProductOnCheckoutCreateWithoutCheckoutInput, ProductOnCheckoutUncheckedCreateWithoutCheckoutInput>
+  }
+
+  export type ProductOnCheckoutUpdateWithWhereUniqueWithoutCheckoutInput = {
+    where: ProductOnCheckoutWhereUniqueInput
+    data: XOR<ProductOnCheckoutUpdateWithoutCheckoutInput, ProductOnCheckoutUncheckedUpdateWithoutCheckoutInput>
+  }
+
+  export type ProductOnCheckoutUpdateManyWithWhereWithoutCheckoutInput = {
+    where: ProductOnCheckoutScalarWhereInput
+    data: XOR<ProductOnCheckoutUpdateManyMutationInput, ProductOnCheckoutUncheckedUpdateManyWithoutProductsInput>
+  }
+
+  export type CheckoutUpdateWithoutUserInput = {
+    products?: ProductOnCheckoutUpdateManyWithoutCheckoutNestedInput
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    transferCapture?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CheckoutUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    products?: ProductOnCheckoutUncheckedUpdateManyWithoutCheckoutNestedInput
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    transferCapture?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CheckoutUncheckedUpdateManyWithoutCheckoutsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    transferCapture?: NullableStringFieldUpdateOperationsInput | string | null
+    transferAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProductOnCheckoutUpdateWithoutProductInput = {
+    checkout?: CheckoutUpdateOneRequiredWithoutProductsNestedInput
+  }
+
+  export type ProductOnCheckoutUncheckedUpdateWithoutProductInput = {
+    checkoutId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ProductOnCheckoutUncheckedUpdateManyWithoutCheckoutsInput = {
+    checkoutId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ProductOnCheckoutUpdateWithoutCheckoutInput = {
+    product?: ProductUpdateOneRequiredWithoutCheckoutsNestedInput
+  }
+
+  export type ProductOnCheckoutUncheckedUpdateWithoutCheckoutInput = {
+    productId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ProductOnCheckoutUncheckedUpdateManyWithoutProductsInput = {
+    productId?: IntFieldUpdateOperationsInput | number
   }
 
 

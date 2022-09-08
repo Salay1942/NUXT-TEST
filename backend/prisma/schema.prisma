@@ -12,10 +12,11 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
   password  String
-  createdAt DateTime @default(now())
+  checkouts Checkout[]
+  createdAt DateTime   @default(now())
 }
 
 model Admin {
@@ -26,11 +27,34 @@ model Admin {
 }
 
 model Product {
-  id          Int      @id @default(autoincrement())
+  id          Int                 @id @default(autoincrement())
   title       String
   description String
   images      String
   price       Float
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  checkouts   ProductOnCheckout[]
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+}
+
+model ProductOnCheckout {
+  checkout   Checkout @relation(fields: [checkoutId], references: [id])
+  checkoutId Int
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  Int
+  // TODO: ควรจะข้อมูล amount
+  @@id([checkoutId, productId])
+}
+
+model Checkout {
+  id              Int                 @id @default(autoincrement())
+  user            User                @relation(fields: [userId], references: [id])
+  userId          Int
+  products        ProductOnCheckout[]
+  price           Float
+  status          String              @default("pending")
+  transferCapture String?
+  transferAt      DateTime?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
 }

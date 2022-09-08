@@ -95,6 +95,22 @@ exports.Prisma.AdminScalarFieldEnum = makeEnum({
   createdAt: 'createdAt'
 });
 
+exports.Prisma.CheckoutScalarFieldEnum = makeEnum({
+  id: 'id',
+  userId: 'userId',
+  price: 'price',
+  status: 'status',
+  transferCapture: 'transferCapture',
+  transferAt: 'transferAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+});
+
+exports.Prisma.ProductOnCheckoutScalarFieldEnum = makeEnum({
+  checkoutId: 'checkoutId',
+  productId: 'productId'
+});
+
 exports.Prisma.ProductScalarFieldEnum = makeEnum({
   id: 'id',
   title: 'title',
@@ -125,7 +141,9 @@ exports.Prisma.UserScalarFieldEnum = makeEnum({
 exports.Prisma.ModelName = makeEnum({
   User: 'User',
   Admin: 'Admin',
-  Product: 'Product'
+  Product: 'Product',
+  ProductOnCheckout: 'ProductOnCheckout',
+  Checkout: 'Checkout'
 });
 
 /**
