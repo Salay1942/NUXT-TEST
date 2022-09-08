@@ -8,6 +8,7 @@ definePageMeta({
 
 const route = useRoute()
 const router = useRouter()
+const axios = useAxios()
 
 interface Input {
   title: string
@@ -43,19 +44,21 @@ const loading = ref(false)
 async function onUpsertProduct() {
   loading.value = true
   try {
-    const res = await $fetch<{ message: string }>('/api/admin/products', {
-      method: 'post',
-      params: {
-        id: id.value
-      },
-      body: {
+    const res = await axios.post<{ message: string }>(
+      '/api/admin/products',
+      {
         title: input.title,
         description: input.description,
         images: input.images.join(','),
         price: input.price
+      },
+      {
+        params: {
+          id: id.value
+        }
       }
-    })
-    alert(res.message)
+    )
+    alert(res.data.message)
     router.push('/admin/products')
   } catch (error) {
     alert(error.data.message)

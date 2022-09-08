@@ -11,28 +11,25 @@ interface Admin {
 }
 
 export default () => {
+  const axios = useAxios()
   const router = useRouter()
 
   const auth = useState<User | undefined>('auth', () => undefined)
   const admin = useState<Admin | undefined>('admin', () => undefined)
 
   async function checkAuth() {
-    const res = await $fetch<{ auth: User | undefined }>('http://localhost:3000/api/auth', {
-      headers: useRequestHeaders(['cookie'])
-    }) // = localhost:80
-    auth.value = res.auth
+    const res = await axios.get<{ auth: User | undefined }>('http://localhost:3000/api/auth') // = localhost:80
+    auth.value = res.data.auth
   }
 
   async function checkAdmin() {
-    const res = await $fetch<{ admin: Admin | undefined }>('http://localhost:3000/api/admin', {
-      headers: useRequestHeaders(['cookie'])
-    })
-    admin.value = res.admin
+    const res = await axios.get<{ admin: Admin | undefined }>('http://localhost:3000/api/admin')
+    admin.value = res.data.admin
   }
 
   async function logout() {
-    const res = await $fetch<{ message: string }>('/api/logout')
-    alert(res.message)
+    const res = await axios.get<{ message: string }>('/api/logout')
+    alert(res.data.message)
     auth.value = undefined
     router.push('/')
   }

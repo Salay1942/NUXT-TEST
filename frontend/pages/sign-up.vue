@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const router = useRouter()
+const axios = useAxios()
 
 const input = reactive({
   email: '',
@@ -16,11 +17,8 @@ async function onSignUp() {
       alert('รหัสผ่านยืนยันของคุณไม่ตรงกัน')
       return
     }
-    const res = await $fetch<{ message: string }>('/api/sign-up', {
-      method: 'post',
-      body: input
-    })
-    alert(res.message)
+    const res = await axios.post<{ message: string }>('/api/sign-up', input)
+    alert(res.data.message)
     router.push('/login')
   } catch (error) {
     alert(error.data.message)

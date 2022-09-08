@@ -6,19 +6,20 @@ definePageMeta({
   middleware: ['only-admin']
 })
 
+const axios = useAxios()
+
 const page = ref(1)
 const products = ref<Product[]>([])
 
 async function fetchProducts() {
   // useFetch ==> $fetch ==> ohmyfetch
   // useAsyncData ==> axios ==> axios.create({ baseURL: '?' })
-  const res = await $fetch<{ products: Product[] }>('http://localhost:3000/api/admin/products', {
-    headers: useRequestHeaders(['cookie']),
+  const res = await axios.get<{ products: Product[] }>('http://localhost:3000/api/admin/products', {
     params: {
       page: page.value
     }
   })
-  products.value = res.products
+  products.value = res.data.products
 }
 
 await fetchProducts()

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { checkAuth } = useAuth()
 const router = useRouter()
+const axios = useAxios()
 
 const input = reactive({
   email: '',
@@ -12,12 +13,9 @@ const loading = ref(false)
 async function onLogin() {
   loading.value = true
   try {
-    const res = await $fetch<{ message: string }>('/api/login', {
-      method: 'post',
-      body: input
-    })
+    const res = await axios.post<{ message: string }>('/api/login', input)
     await checkAuth()
-    alert(res.message)
+    alert(res.data.message)
     router.push('/')
   } catch (error) {
     alert(error.data.message)

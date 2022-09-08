@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const axios = useAxios()
 
 definePageMeta({
   layout: false,
@@ -25,12 +26,9 @@ const loading = ref(false)
 async function onLoginAsAdmin() {
   loading.value = true
   try {
-    const res = await $fetch<{ message: string }>('/api/admin/login', {
-      method: 'post',
-      body: input
-    })
+    const res = await axios.post<{ message: string }>('/api/admin/login', input)
     await checkAdmin()
-    alert(res.message)
+    alert(res.data.message)
     router.push('/admin/dashboard')
   } catch (error) {
     alert(error.data.message)
