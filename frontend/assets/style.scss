@@ -10,6 +10,9 @@
   &.is-secondary {
     @apply bg-gray-700 text-white hover:bg-gray-800 focus:ring-gray-900;
   }
+  &.is-sm {
+    @apply text-sm px-2 py-1;
+  }
 }
 
 .input {

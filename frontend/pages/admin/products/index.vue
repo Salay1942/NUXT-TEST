@@ -14,7 +14,7 @@ const products = ref<Product[]>([])
 async function fetchProducts() {
   // useFetch ==> $fetch ==> ohmyfetch
   // useAsyncData ==> axios ==> axios.create({ baseURL: '?' })
-  const res = await axios.get<{ products: Product[] }>('http://localhost:3000/api/admin/products', {
+  const res = await axios.get<{ products: Product[] }>('/api/products', {
     params: {
       page: page.value
     }

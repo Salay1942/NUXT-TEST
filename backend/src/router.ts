@@ -17,12 +17,13 @@ router.post('/sign-up', signUp)
 router.post('/login', login)
 router.get('/logout', logout)
 
+router.get('/products', getAllProducts)
+router.get('/products/:id', getProduct)
+
 router.get('/admin', checkAdmin)
 router.post('/admin/login', loginAsAdmin)
 
 router.use('/admin', onlyAdmin)
-router.get('/admin/products', getAllProducts)
 router.post('/admin/products', upsertProducts)
-router.get('/admin/products/:id', getProduct)
 
 export default router

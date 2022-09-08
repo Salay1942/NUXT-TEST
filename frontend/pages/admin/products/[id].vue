@@ -34,13 +34,13 @@ if (!isCreate) {
   const { data, refresh } = await useAsyncData<{ product: Product }>(
     `admin-products-${route.params.id}`,
     async () => {
-      const res = await axios.get(`/api/admin/products/${route.params.id}`)
+      const res = await axios.get(`/api/products/${route.params.id}`)
       return res.data
     }
   )
   refreshCache = refresh
   const product = data.value.product
-  // const res = await axios.get(`/api/admin/products/${route.params.id}`)
+  // const res = await axios.get(`/api/products/${route.params.id}`)
   // const product = res.data.product
   id.value = product.id
   input.title = product.title
@@ -55,7 +55,7 @@ async function onUpsertProduct() {
   loading.value = true
   try {
     const res = await axios.post<{ message: string }>(
-      '/api/admin/products',
+      '/api/products',
       {
         title: input.title,
         description: input.description,
