@@ -2,7 +2,7 @@ import prisma from '../src/prisma'
 import { program } from 'commander'
 import { faker } from '@faker-js/faker'
 import { random } from 'lodash'
-import { Prisma } from '../src/generated/prisma-client-js'
+import { Prisma } from '@prisma/client'
 
 program
   .requiredOption('-c, --count <count>')

@@ -1,7 +1,7 @@
 import { compare } from 'bcrypt'
 import { RequestHandler } from 'express'
 import { omit } from 'lodash'
-import { Admin } from '../../generated/prisma-client-js'
+import { Admin } from '@prisma/client'
 import prisma from '../prisma'
 
 declare module 'express-session' {
