@@ -55,7 +55,7 @@ async function onUpsertProduct() {
   loading.value = true
   try {
     const res = await axios.post<{ message: string }>(
-      '/api/products',
+      '/api/admin/products',
       {
         title: input.title,
         description: input.description,
